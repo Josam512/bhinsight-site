@@ -1,0 +1,760 @@
+<title>Essayage Air Optix Colors</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap">
+<style>
+  /* Layout : la scène (image caméra + lentilles dans un seul canvas) avec le nuancier en bandeau dessus ; réglages et nuancier détaillé dessous. */
+  :root {
+    --bg: #f4f2ee;
+    --surface: #ffffff;
+    --surface-2: #ebe8e2;
+    --fg: #1b1a18;
+    --fg-soft: #5d5a54;
+    --fg-faint: #8a867f;
+    --line: #d9d5cd;
+    --accent: #1f6f8b;
+    --accent-ink: #ffffff;
+    --stage: #121416;
+    --font: "Manrope", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #141516; --surface: #1d1f21; --surface-2: #26292c; --fg: #ecebe7; --fg-soft: #b3b0a9;
+      --fg-faint: #807d76; --line: #34373b; --accent: #5fb3cf; --accent-ink: #0d1a1f; --stage: #0b0c0d; color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #141516; --surface: #1d1f21; --surface-2: #26292c; --fg: #ecebe7; --fg-soft: #b3b0a9;
+    --fg-faint: #807d76; --line: #34373b; --accent: #5fb3cf; --accent-ink: #0d1a1f; --stage: #0b0c0d; color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--font); font-size: 15px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+  .wrap {
+    max-width: 68rem; margin: 0 auto;
+    padding-block: 0.9rem 3rem;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    display: flex; flex-direction: column; gap: 1rem;
+  }
+  header { display: flex; flex-direction: column; gap: 0.2rem; }
+  h1 { margin: 0; font-size: clamp(1.15rem, 3vw, 1.7rem); font-weight: 700; letter-spacing: -0.01em; text-wrap: balance; }
+  h2 { margin: 0; font-size: 0.76rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg-faint); }
+  p { margin: 0; max-width: 66ch; }
+  .lede { color: var(--fg-soft); font-size: 0.92rem; }
+
+  /* ── Scène ── */
+  .stage-box { background: var(--stage); border-radius: 10px; overflow: hidden; position: relative; }
+  .stage { position: relative; width: 100%; display: flex; justify-content: center; }
+  .stage video { position: absolute; top: 0; left: 0; width: 2px; height: 2px; opacity: 0.01; pointer-events: none; }
+  .stage canvas { display: block; max-width: 100%; max-height: 80vh; width: auto; height: auto; }
+  .stage.mirror canvas { transform: scaleX(-1); }
+  .stage.idle canvas { display: none; }
+  .stage.idle { min-height: 19rem; }
+  .badges { position: absolute; top: 0.6rem; left: 0.6rem; right: 0.6rem; display: flex; flex-wrap: wrap; gap: 0.4rem; z-index: 2; pointer-events: none; }
+  .badge { font-family: var(--mono); font-size: 0.72rem; padding: 0.2rem 0.55rem; border-radius: 999px; background: rgba(0,0,0,0.6); color: #f2f2f2; }
+  .badge.ok { color: #9fe0b0; } .badge.warn { color: #f4c37a; } .badge.bad { color: #f3a08f; }
+  .empty { position: absolute; inset: 0; display: grid; place-content: center; gap: 0.8rem; text-align: center; padding: 1.5rem; color: #d7d5d0; z-index: 1; }
+  .empty h3 { margin: 0; font-size: 1.05rem; font-weight: 600; color: #fff; }
+  .empty p { color: #c4c1ba; font-size: 0.92rem; max-width: 38ch; margin: 0 auto; }
+  .empty .row { display: flex; flex-wrap: wrap; gap: 0.6rem; justify-content: center; }
+  .boot { position: absolute; inset: 0; display: grid; place-content: center; gap: 0.7rem; text-align: center; padding: 1.5rem; background: var(--stage); color: #e9e7e2; z-index: 4; min-height: 19rem; }
+  .boot .bar { width: min(22rem, 70vw); height: 4px; border-radius: 2px; background: #2c2f33; overflow: hidden; }
+  .boot .bar i { display: block; height: 100%; width: 0; background: #5fb3cf; transition: width 0.2s; }
+  .boot small { color: #9b988f; }
+  .boot code { font-family: var(--mono); color: #f3a08f; font-size: 0.8rem; white-space: pre-wrap; }
+
+  /* Bandeau de teintes posé sur l'image : on choisit sans quitter l'image des yeux. */
+  .strip {
+    position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; display: flex; flex-direction: column; gap: 0.35rem;
+    padding: 1.4rem 0 0.5rem; background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.78) 40%);
+  }
+  .brands, .chips { display: flex; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; padding: 0 0.6rem; }
+  .brands::-webkit-scrollbar, .chips::-webkit-scrollbar { display: none; }
+  .brands { gap: 0.4rem; }
+  .chips { gap: 0.35rem; }
+  .brand {
+    flex: 0 0 auto; font: inherit; font-size: 0.72rem; font-weight: 600; color: #e9e7e2; cursor: pointer; touch-action: manipulation;
+    padding: 0.3rem 0.7rem; border-radius: 999px; border: 1px solid rgba(255,255,255,0.4); background: rgba(0,0,0,0.35); min-height: 1.9rem;
+  }
+  .brand[aria-pressed="true"] { background: #fff; color: #111; border-color: #fff; }
+  .brand:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+  .stage.idle .strip { display: none; }
+  .chip {
+    flex: 0 0 auto; width: 4.1rem; display: flex; flex-direction: column; align-items: center; gap: 0.25rem;
+    background: none; border: 0; padding: 0.15rem 0; color: #e9e7e2; font: inherit; font-size: 0.64rem; line-height: 1.15;
+    text-align: center; cursor: pointer; touch-action: manipulation;
+  }
+  .chip .iris { width: 2.6rem; height: 2.6rem; border-radius: 50%; border: 2px solid rgba(255,255,255,0.35); }
+  .chip.none .iris { background: repeating-conic-gradient(#555 0 25%, #888 0 50%) 50% / 0.6rem 0.6rem; }
+  .chip[aria-pressed="true"] { color: #fff; font-weight: 700; }
+  .chip[aria-pressed="true"] .iris { border-color: #fff; box-shadow: 0 0 0 2px rgba(255,255,255,0.5); }
+  .chip:focus-visible .iris { outline: 2px solid #fff; outline-offset: 2px; }
+
+  .diag { font-family: var(--mono); font-size: 0.7rem; color: var(--fg-faint); padding: 0.35rem 0.75rem; display: flex; flex-wrap: wrap; align-items: center; gap: 0.2rem 1rem; background: var(--surface-2); }
+  .diag button { font: inherit; color: var(--accent); background: none; border: 0; padding: 0.2rem 0; cursor: pointer; text-decoration: underline; }
+
+  /* ── Commandes ── */
+  .controls { display: flex; flex-wrap: wrap; gap: 0.6rem 1.2rem; align-items: center; }
+  .btn {
+    font: inherit; font-weight: 600; font-size: 0.92rem; cursor: pointer; touch-action: manipulation;
+    padding: 0.65rem 1rem; border-radius: 8px; border: 1px solid var(--line);
+    background: var(--surface); color: var(--fg); min-height: 2.75rem; user-select: none; -webkit-user-select: none;
+  }
+  .btn.primary { background: var(--accent); color: var(--accent-ink); border-color: transparent; }
+  .btn:focus-visible, .swatch:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .btn[aria-pressed="true"] { background: var(--fg); color: var(--bg); border-color: transparent; }
+  .field { display: flex; align-items: center; gap: 0.6rem; font-size: 0.86rem; color: var(--fg-soft); }
+  .field input[type=range] { width: 8rem; accent-color: var(--accent); }
+  .field output { font-family: var(--mono); font-size: 0.8rem; min-width: 3ch; color: var(--fg); font-variant-numeric: tabular-nums; }
+  input[type=file] { display: none; }
+
+  /* ── Nuancier détaillé ── */
+  .palette { display: flex; flex-direction: column; gap: 1rem; }
+  .group { display: flex; flex-direction: column; gap: 0.6rem; }
+  .brand-head { display: flex; align-items: baseline; gap: 0.75rem; flex-wrap: wrap; border-top: 1px solid var(--line); padding-top: 1rem; }
+  .brand-head h2 { font-size: 1.05rem; letter-spacing: 0; text-transform: none; color: var(--fg); font-weight: 700; }
+  .brand-head span { font-size: 0.82rem; color: var(--fg-soft); }
+  h3 { margin: 0; font-size: 0.76rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg-faint); }
+  .group-head { display: flex; align-items: baseline; gap: 0.75rem; flex-wrap: wrap; }
+  .group-head span { font-size: 0.82rem; color: var(--fg-soft); }
+  .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr)); gap: 0.6rem; }
+  .swatch {
+    display: grid; grid-template-columns: auto 1fr; gap: 0.7rem; align-items: center; text-align: left;
+    padding: 0.55rem 0.7rem; border-radius: 10px; border: 1px solid var(--line); min-height: 3.4rem;
+    background: var(--surface); color: var(--fg); font: inherit; cursor: pointer; touch-action: manipulation;
+  }
+  .swatch[aria-pressed="true"] { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent); }
+  .swatch .iris { width: 2.4rem; height: 2.4rem; border-radius: 50%; flex: none; }
+  .swatch .name { font-weight: 600; font-size: 0.9rem; line-height: 1.2; }
+  .swatch .sub { font-size: 0.74rem; color: var(--fg-faint); }
+  .swatch.none .iris { background: repeating-conic-gradient(var(--surface-2) 0 25%, var(--surface) 0 50%) 50% / 0.6rem 0.6rem; border: 1px solid var(--line); }
+
+  .note { font-size: 0.84rem; color: var(--fg-soft); border-top: 1px solid var(--line); padding-top: 1rem; display: flex; flex-direction: column; gap: 0.4rem; }
+  @media (prefers-reduced-motion: reduce) { .boot .bar i { transition: none; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Essayage virtuel de lentilles de couleur</h1>
+    <p class="lede">Air Optix Colors, FreshLook ColorBlends et SofLens Natural Colors, posées en direct sur vos iris. Rien ne quitte votre appareil.</p>
+  </header>
+
+  <div class="stage-box">
+    <div class="stage idle" id="stage">
+      <video id="video" playsinline muted></video>
+      <canvas id="canvas" width="640" height="480"></canvas>
+      <div class="badges" id="badges"></div>
+      <div class="strip" id="strip">
+        <div class="brands" id="brands" aria-label="Gammes"></div>
+        <div class="chips" id="chips" aria-label="Teintes"></div>
+      </div>
+      <div class="empty" id="empty">
+        <h3 id="empty-title">Choisissez une source</h3>
+        <p id="empty-text">Activez la caméra pour un essayage en direct, ou importez une photo de face, bien éclairée, yeux ouverts.</p>
+        <div class="row">
+          <button class="btn primary" id="btn-cam-empty" type="button">Activer la caméra</button>
+          <button class="btn" id="btn-photo-empty" type="button">Importer une photo</button>
+        </div>
+      </div>
+    </div>
+    <div class="diag" id="diag"><span id="diag-engine">Moteur : préparation…</span><span id="diag-fps"></span><button type="button" id="btn-engine" hidden>Changer de moteur</button></div>
+    <div class="boot" id="boot">
+      <strong>Préparation de l’essayage…</strong>
+      <div class="bar"><i id="jauge"></i></div>
+      <small id="etat">Décompression du modèle de suivi du visage</small>
+      <code id="err" hidden></code>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button class="btn" id="btn-cam" type="button" aria-pressed="false">Caméra</button>
+    <button class="btn" id="btn-photo" type="button">Importer une photo</button>
+    <input type="file" id="file" accept="image/*">
+    <button class="btn" id="btn-hold" type="button" aria-pressed="false" title="Maintenir pour voir l’œil nu">Avant (maintenir)</button>
+    <button class="btn" id="btn-half" type="button" aria-pressed="false">Un seul œil</button>
+    <label class="field" for="intensity">Opacité
+      <input type="range" id="intensity" min="40" max="100" value="85"><output id="intensity-out">85</output>%
+    </label>
+    <label class="field" for="pupil">Pupille
+      <input type="range" id="pupil" min="28" max="55" value="40"><output id="pupil-out">40</output>%
+    </label>
+  </div>
+
+  <section class="palette" id="palette" aria-label="Nuanciers des trois gammes"></section>
+
+  <div class="note">
+    <p>Teintes approchées d’après les nuanciers publiés : Air Optix Colors et FreshLook ColorBlends (Alcon, 12 teintes chacune), SofLens Natural Colors (Bausch + Lomb, 10 teintes). Les fabricants ne publient pas de valeurs colorimétriques. Le rendu sur un iris réel dépend de sa couleur de départ, de l’éclairage et de la caméra : cette page donne une idée, pas une garantie. Ce n’est pas un outil officiel des fabricants.</p>
+    <p>Disponibilité : SofLens Natural Colors est annoncée comme arrêtée par plusieurs revendeurs, et FreshLook ColorBlends comme en fin de commercialisation. Vérifiez auprès de votre fournisseur.</p>
+    <p>Suivi du visage : MediaPipe Face Landmarker, exécuté entièrement dans le navigateur. Aucune image n’est envoyée nulle part.</p>
+  </div>
+</div>
+
+<script>
+__LOADER_JS__
+;window.__MPFactory = (typeof ModuleFactory !== 'undefined') ? ModuleFactory : self.ModuleFactory;
+</script>
+<script>
+(function () { var exports = {}; var module = { exports: exports };
+__BUNDLE_JS__
+window.MPVision = module.exports && module.exports.FaceLandmarker ? module.exports : exports; })();
+</script>
+<script>
+(function () {
+  'use strict';
+
+  // ── Nuanciers : base (anneau principal), inner (près de la pupille), limbal (anneau externe).
+  //    ring = netteté de l’anneau externe propre à chaque gamme (1 = très marqué). ──
+  var BRANDS = [
+    { id: 'aoc', name: 'Air Optix Colors', maker: 'Alcon', ring: 1, groups: [
+      { title: 'Teintes naturelles', sub: 'Pour rehausser l’iris sans le transformer', colors: [
+        { name: 'Brown',        fr: 'Brun',          base: '#7a4a24', inner: '#b27a42', limbal: '#2b180a' },
+        { name: 'Honey',        fr: 'Miel',          base: '#9e7340', inner: '#d4a65f', limbal: '#44290f' },
+        { name: 'Pure Hazel',   fr: 'Noisette',      base: '#8a7637', inner: '#cbae63', limbal: '#39300f' },
+        { name: 'Gray',         fr: 'Gris',          base: '#7d8690', inner: '#b6bcc2', limbal: '#272d35' },
+        { name: 'Green',        fr: 'Vert',          base: '#4c8747', inner: '#9cc27c', limbal: '#1a3519' },
+        { name: 'Blue',         fr: 'Bleu',          base: '#3e7cbd', inner: '#92bbdc', limbal: '#182c49' } ] },
+      { title: 'Teintes intenses', sub: 'Un changement de couleur franc, même sur iris foncé', colors: [
+        { name: 'Sterling Gray',  fr: 'Gris argent',   base: '#687d8d', inner: '#aabfcb', limbal: '#1b262f' },
+        { name: 'Brilliant Blue', fr: 'Bleu brillant', base: '#2b6dd0', inner: '#6ea9ea', limbal: '#122752' },
+        { name: 'Gemstone Green', fr: 'Vert émeraude', base: '#1f7a58', inner: '#52b089', limbal: '#0b3023' } ] },
+      { title: 'Gemstone Collection', sub: 'Les trois teintes ajoutées en 2018', colors: [
+        { name: 'True Sapphire', fr: 'Saphir',    base: '#1e4ea6', inner: '#3d75cb', limbal: '#0c1c42' },
+        { name: 'Amethyst',      fr: 'Améthyste', base: '#6b4fa4', inner: '#a48bcb', limbal: '#2b1e47' },
+        { name: 'Turquoise',     fr: 'Turquoise', base: '#2d939b', inner: '#7cc6ca', limbal: '#0f3d41' } ] } ] },
+    { id: 'flc', name: 'FreshLook ColorBlends', maker: 'Alcon', ring: 0.6, groups: [
+      { title: 'Les 12 teintes', sub: 'Mélange 3 en 1, anneau externe plus doux', colors: [
+        { name: 'Brown',          fr: 'Brun',          base: '#80522b', inner: '#b98548', limbal: '#3a2412' },
+        { name: 'Honey',          fr: 'Miel',          base: '#a87c45', inner: '#dcb06a', limbal: '#5a3a18' },
+        { name: 'Pure Hazel',     fr: 'Noisette',      base: '#8f7b3d', inner: '#cfb46c', limbal: '#4a3e18' },
+        { name: 'Gray',           fr: 'Gris',          base: '#858d96', inner: '#bcc2c8', limbal: '#3a4048' },
+        { name: 'Sterling Gray',  fr: 'Gris argent',   base: '#70838f', inner: '#afc2cc', limbal: '#2b3a44' },
+        { name: 'Green',          fr: 'Vert',          base: '#56904f', inner: '#a5c986', limbal: '#2a4a27' },
+        { name: 'Gemstone Green', fr: 'Vert émeraude', base: '#26845f', inner: '#5cb892', limbal: '#164232' },
+        { name: 'Turquoise',      fr: 'Turquoise',     base: '#33999f', inner: '#86cdd0', limbal: '#1a5156' },
+        { name: 'Blue',           fr: 'Bleu',          base: '#4a86c4', inner: '#9cc2e0', limbal: '#25406a' },
+        { name: 'Brilliant Blue', fr: 'Bleu brillant', base: '#3475d4', inner: '#77b0ec', limbal: '#1c3769' },
+        { name: 'True Sapphire',  fr: 'Saphir',        base: '#2757ad', inner: '#4a80d0', limbal: '#162b5a' },
+        { name: 'Amethyst',       fr: 'Améthyste',     base: '#7257aa', inner: '#aa93d0', limbal: '#3a2c5c' } ] } ] },
+    { id: 'sl', name: 'SofLens Natural Colors', maker: 'Bausch + Lomb', ring: 0.5, groups: [
+      { title: 'Les 10 teintes', sub: 'Gamme arrêtée par le fabricant, encore en stock chez certains revendeurs', colors: [
+        { name: 'India',      fr: 'Brun doré',       base: '#a36f3a', inner: '#d8a565', limbal: '#55361a' },
+        { name: 'Dark Hazel', fr: 'Noisette foncé',  base: '#6f5a2c', inner: '#a98f4e', limbal: '#3a2e14' },
+        { name: 'Platinum',   fr: 'Platine',         base: '#8e959c', inner: '#c4c9ce', limbal: '#454b52' },
+        { name: 'Amazon',     fr: 'Vert amazone',    base: '#58803c', inner: '#9dbb6c', limbal: '#2c4420' },
+        { name: 'Emerald',    fr: 'Émeraude',        base: '#2e8b57', inner: '#6cc08e', limbal: '#174a2e' },
+        { name: 'Jade',       fr: 'Jade',            base: '#6aa27c', inner: '#a8cfb0', limbal: '#33583f' },
+        { name: 'Aquamarine', fr: 'Aigue-marine',    base: '#45a3a6', inner: '#8fd3d0', limbal: '#1f5558' },
+        { name: 'Topaz',      fr: 'Topaze',          base: '#5a9ed2', inner: '#a4cdea', limbal: '#2a5478' },
+        { name: 'Pacific',    fr: 'Bleu Pacifique',  base: '#3a7ab8', inner: '#86b6dc', limbal: '#1c3f66' },
+        { name: 'Indigo',     fr: 'Indigo',          base: '#3f4fa6', inner: '#7484d0', limbal: '#1f2a5c' } ] } ] }
+  ];
+  function mixHex(a, b, t) { // mélange de deux couleurs #rrggbb
+    var out = '#';
+    for (var i = 1; i < 7; i += 2) { var x = parseInt(a.substr(i, 2), 16), y = parseInt(b.substr(i, 2), 16); out += ('0' + Math.round(x + (y - x) * t).toString(16)).slice(-2); }
+    return out;
+  }
+  var ALL = [];
+  BRANDS.forEach(function (b) { b.colors = []; b.groups.forEach(function (g) { g.colors.forEach(function (c) {
+    c.brand = b; c.id = b.id + '-' + c.name.toLowerCase().replace(/[^a-z]+/g, '-');
+    c.limbal = mixHex(c.base, c.limbal, b.ring); // anneau externe plus ou moins marqué selon la gamme
+    b.colors.push(c); ALL.push(c);
+  }); }); });
+
+  // Indices MediaPipe Face Mesh : contour de l’œil, puis les 5 points d’iris (centre, droite, haut, gauche, bas).
+  var EYES = [
+    { contour: [33, 7, 163, 144, 145, 153, 154, 155, 133, 173, 157, 158, 159, 160, 161, 246], iris: [468, 469, 470, 471, 472] },
+    { contour: [362, 382, 381, 380, 374, 373, 390, 249, 263, 466, 388, 387, 386, 385, 384, 398], iris: [473, 474, 475, 476, 477] }
+  ];
+
+  // Stratégies de suivi, essayées dans l’ordre tant qu’aucun visage n’a été vu sur le flux en direct.
+  // CPU d’abord : même résultat sur tous les appareils. Le calcul sur puce graphique (GPU) rate la détection sur certains téléphones.
+  var STRATEGIES = [
+    { delegate: 'CPU', input: 'video' }, { delegate: 'CPU', input: 'canvas' },
+    { delegate: 'GPU', input: 'video' }, { delegate: 'GPU', input: 'canvas' }
+  ];
+
+  var $ = function (id) { return document.getElementById(id); };
+  var video = $('video'), canvas = $('canvas'), ctx = canvas.getContext('2d');
+  var stage = $('stage'), badges = $('badges'), empty = $('empty'), boot = $('boot'), jauge = $('jauge'), etat = $('etat'), err = $('err');
+  var eyeCv = document.createElement('canvas'), eyeCtx = eyeCv.getContext('2d');
+  var state = {
+    color: null, intensity: 0.85, pupil: 0.40, half: false, hold: false,
+    brand: null, picked: false, mode: 'idle', starting: false, busy: false,
+    stream: null, raf: 0, lastTs: -1, lastVideoTime: -1, lastRun: 0, faces: -1, smooth: [null, null],
+    image: null, imageResult: null, frames: 0, fpsAt: 0, detMs: 0,
+    strategy: 0, strategySince: 0, everFace: false, cycleDone: false, wakeLock: null, trackErrors: 0
+  };
+  var engine = { lm: null, delegate: null, runningMode: null, wasm: null, model: null, selfTest: {} };
+  var sprites = {};
+
+  function fail(msg, detail) {
+    etat.textContent = msg; jauge.style.width = '100%'; jauge.style.background = '#e08a7a';
+    err.hidden = false; err.textContent = detail || '';
+  }
+  function setBadges(list) {
+    badges.innerHTML = '';
+    list.forEach(function (b) { var s = document.createElement('span'); s.className = 'badge ' + (b.kind || ''); s.textContent = b.text; badges.appendChild(s); });
+  }
+  function setMode(m) { state.mode = m; stage.classList.remove('idle', 'live', 'photo'); stage.classList.add(m); if (m !== 'idle') centerChip(); }
+  function showEmpty(title, text) {
+    $('empty-title').textContent = title; $('empty-text').textContent = text; empty.hidden = false;
+    setMode('idle');
+  }
+  function store(key, value) {
+    try { if (value === undefined) return window.localStorage.getItem(key); window.localStorage.setItem(key, value); } catch (e) { return null; }
+  }
+  function showDiag() {
+    var s = STRATEGIES[state.strategy], t = engine.selfTest[engine.delegate];
+    $('diag-engine').textContent = 'Moteur ' + engine.delegate + ' · autotest ' + (t === true ? 'OK' : t === false ? 'échoué' : '?') +
+      ' · entrée ' + (s.input === 'video' ? 'vidéo' : 'image');
+  }
+
+  // ── Nuancier : bandeau sur l’image + liste détaillée ──
+  function irisCss(c) { return 'radial-gradient(circle, #111 0 32%, ' + c.inner + ' 36%, ' + c.base + ' 55%, ' + c.limbal + ' 92%)'; }
+  function buildPalette() {
+    var root = $('palette'), tabs = $('brands');
+    BRANDS.forEach(function (b) {
+      var t = document.createElement('button'); t.type = 'button'; t.className = 'brand'; t.id = 'br-' + b.id; t.setAttribute('aria-pressed', 'false');
+      t.textContent = b.name; t.addEventListener('click', function () { selectBrand(b, true); });
+      tabs.appendChild(t);
+      var title = document.createElement('div'); title.className = 'brand-head';
+      var bn = document.createElement('h2'); bn.textContent = b.name; var mk = document.createElement('span'); mk.textContent = b.maker;
+      title.appendChild(bn); title.appendChild(mk); root.appendChild(title);
+      b.groups.forEach(function (f, fi) {
+        var g = document.createElement('div'); g.className = 'group';
+        var h = document.createElement('div'); h.className = 'group-head';
+        var tt = document.createElement('h3'); tt.textContent = f.title; h.appendChild(tt);
+        var sp = document.createElement('span'); sp.textContent = f.sub; h.appendChild(sp);
+        g.appendChild(h);
+        var grid = document.createElement('div'); grid.className = 'swatches';
+        if (b === BRANDS[0] && fi === 0) grid.appendChild(swatchButton(null));
+        f.colors.forEach(function (c) { grid.appendChild(swatchButton(c)); });
+        g.appendChild(grid); root.appendChild(g);
+      });
+    });
+  }
+  function selectBrand(b, pick) { // remplit le bandeau avec les teintes de la gamme
+    state.brand = b;
+    Array.prototype.forEach.call(document.querySelectorAll('.brand'), function (t) { t.setAttribute('aria-pressed', String(t.id === 'br-' + b.id)); });
+    var chips = $('chips'); chips.innerHTML = '';
+    chips.appendChild(chipButton(null));
+    b.colors.forEach(function (c) { chips.appendChild(chipButton(c)); });
+    if (pick) { // même nom de teinte dans la nouvelle gamme si elle existe, sinon la première
+      var same = state.color ? b.colors.filter(function (c) { return c.name === state.color.name; })[0] : null;
+      selectColor(state.color === null && state.picked ? null : (same || b.colors[0]));
+    }
+  }
+  function chipButton(c) {
+    var b = document.createElement('button'); b.type = 'button'; b.className = 'chip' + (c ? '' : ' none');
+    b.id = 'st-' + (c ? c.id : 'none'); b.setAttribute('data-color', c ? c.id : 'none'); b.setAttribute('aria-pressed', 'false');
+    var iris = document.createElement('span'); iris.className = 'iris'; if (c) iris.style.background = irisCss(c);
+    var n = document.createElement('span'); n.textContent = c ? c.name : 'Sans';
+    b.appendChild(iris); b.appendChild(n);
+    b.addEventListener('click', function () { selectColor(c); });
+    return b;
+  }
+  function swatchButton(c) {
+    var b = document.createElement('button'); b.type = 'button'; b.className = 'swatch' + (c ? '' : ' none');
+    b.id = 'sw-' + (c ? c.id : 'none'); b.setAttribute('data-color', c ? c.id : 'none'); b.setAttribute('aria-pressed', 'false');
+    var iris = document.createElement('span'); iris.className = 'iris'; if (c) iris.style.background = irisCss(c);
+    var txt = document.createElement('span');
+    var n = document.createElement('div'); n.className = 'name'; n.textContent = c ? c.name : 'Sans lentille';
+    var sub = document.createElement('div'); sub.className = 'sub'; sub.textContent = c ? c.fr : 'Œil nu';
+    txt.appendChild(n); txt.appendChild(sub); b.appendChild(iris); b.appendChild(txt);
+    b.addEventListener('click', function () { selectColor(c); });
+    return b;
+  }
+  function selectColor(c) {
+    state.color = c; state.picked = true;
+    if (c && c.brand !== state.brand) selectBrand(c.brand, false);
+    var want = c ? c.id : 'none';
+    Array.prototype.forEach.call(document.querySelectorAll('[data-color]'), function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-color') === want)); });
+    centerChip();
+    redrawPhoto();
+  }
+  function centerChip() { // amène la teinte choisie au milieu du bandeau, sans faire défiler la page
+    var strip = $('chips'), chip = $('st-' + (state.color ? state.color.id : 'none'));
+    if (chip && strip.clientWidth) strip.scrollLeft = chip.offsetLeft - (strip.clientWidth - chip.offsetWidth) / 2;
+    var tabs = $('brands'), tab = state.brand ? $('br-' + state.brand.id) : null;
+    if (tab && tabs.clientWidth) tabs.scrollLeft = tab.offsetLeft - (tabs.clientWidth - tab.offsetWidth) / 2;
+  }
+
+  // ── Sprite de lentille : 512×512. Zone centrale transparente à bord en étoile, anneau interne, teinte, anneau limbique. ──
+  function lensSprite(c, pupil) {
+    var key = c.id + ':' + pupil.toFixed(2);
+    if (sprites[key]) return sprites[key];
+    var S = 512, off = document.createElement('canvas'); off.width = S; off.height = S;
+    var o = off.getContext('2d'), cx = S / 2, R = S / 2;
+    var seed = 7; function rnd() { seed = (seed * 16807) % 2147483647; return seed / 2147483647; }
+    var g = o.createRadialGradient(cx, cx, 0, cx, cx, R);
+    g.addColorStop(0, c.inner);
+    g.addColorStop(pupil, c.inner);
+    g.addColorStop(Math.min(0.74, pupil + 0.2), c.base);
+    g.addColorStop(0.76, c.base);
+    g.addColorStop(0.89, c.limbal);
+    g.addColorStop(0.95, c.limbal);
+    g.addColorStop(1, 'rgba(0,0,0,0)');
+    o.fillStyle = g; o.beginPath(); o.arc(cx, cx, R, 0, Math.PI * 2); o.fill();
+    // Stries radiales : la trame imprimée des lentilles, sinon le disque paraît peint.
+    o.save(); o.beginPath(); o.arc(cx, cx, R * 0.94, 0, Math.PI * 2); o.clip();
+    o.globalCompositeOperation = 'overlay'; o.lineWidth = 1.5;
+    for (var i = 0; i < 260; i++) {
+      var a = rnd() * Math.PI * 2, r0 = R * (pupil + rnd() * 0.12), r1 = R * (0.7 + rnd() * 0.24);
+      o.strokeStyle = rnd() > 0.5 ? 'rgba(255,255,255,' + (0.16 + rnd() * 0.24).toFixed(2) + ')' : 'rgba(0,0,0,' + (0.16 + rnd() * 0.28).toFixed(2) + ')';
+      o.beginPath(); o.moveTo(cx + Math.cos(a) * r0, cx + Math.sin(a) * r0); o.lineTo(cx + Math.cos(a + 0.03) * r1, cx + Math.sin(a + 0.03) * r1); o.stroke();
+    }
+    o.restore();
+    // Zone optique : le centre est évidé avec un bord en étoile irrégulière, comme l’impression réelle, puis adouci.
+    o.globalCompositeOperation = 'destination-out';
+    o.beginPath();
+    var N = 96;
+    for (var k = 0; k <= N; k++) {
+      var ang = (k / N) * Math.PI * 2, rr = R * (pupil + (k % 2 ? 0.02 + rnd() * 0.11 : rnd() * 0.03));
+      if (k === N) o.closePath(); else if (k === 0) o.moveTo(cx + Math.cos(ang) * rr, cx + Math.sin(ang) * rr); else o.lineTo(cx + Math.cos(ang) * rr, cx + Math.sin(ang) * rr);
+    }
+    o.fillStyle = 'rgba(0,0,0,0.92)'; o.fill();
+    var h = o.createRadialGradient(cx, cx, R * pupil * 0.8, cx, cx, R * (pupil + 0.05));
+    h.addColorStop(0, 'rgba(0,0,0,1)'); h.addColorStop(1, 'rgba(0,0,0,0)');
+    o.fillStyle = h; o.beginPath(); o.arc(cx, cx, R * (pupil + 0.05), 0, Math.PI * 2); o.fill();
+    sprites[key] = off; return off;
+  }
+
+  // ── Dessin des lentilles. L’image (caméra ou photo) est déjà dans le canvas : elle sert aussi de source de lumière. ──
+  function px(lm, w, h) { return [lm.x * w, lm.y * h]; }
+  function dist(a, b) { return Math.hypot(a[0] - b[0], a[1] - b[1]); }
+
+  function drawLenses(landmarks, w, h, live) {
+    if (!state.color || state.hold) return;
+    var sprite = lensSprite(state.color, state.pupil);
+    for (var idx = 0; idx < EYES.length; idx++) {
+      if (state.half && idx === 1) continue;
+      var eye = EYES[idx];
+      var c = px(landmarks[eye.iris[0]], w, h);
+      var pr = px(landmarks[eye.iris[1]], w, h), pl = px(landmarks[eye.iris[3]], w, h);
+      var pt = px(landmarks[eye.iris[2]], w, h), pb = px(landmarks[eye.iris[4]], w, h);
+      var rx = dist(pr, pl) / 2 * 1.06, ry = dist(pt, pb) / 2 * 1.06;
+      if (!(rx >= 2)) continue;
+      ry = Math.min(Math.max(ry, rx * 0.88), rx * 1.08); // les points haut/bas sont moins fiables sous la paupière
+      var ang = Math.atan2(pl[1] - pr[1], pl[0] - pr[0]);
+      if (ang > Math.PI / 2) ang -= Math.PI; else if (ang < -Math.PI / 2) ang += Math.PI;
+      if (live) { // lissage adaptatif : ferme au repos (pas de tremblement), nul en mouvement (pas de traînée)
+        var prev = state.smooth[idx];
+        if (prev && Math.abs(prev.rx - rx) < rx * 0.3) {
+          var k = Math.min(1, Math.max(0.3, dist(prev.c, c) / (rx * 0.35)));
+          c = [prev.c[0] + (c[0] - prev.c[0]) * k, prev.c[1] + (c[1] - prev.c[1]) * k];
+          rx = prev.rx + (rx - prev.rx) * 0.3; ry = prev.ry + (ry - prev.ry) * 0.3;
+        }
+        state.smooth[idx] = { c: c, rx: rx, ry: ry };
+      }
+      var pts = eye.contour.map(function (i) { return px(landmarks[i], w, h); });
+      var ys = pts.map(function (p) { return p[1]; }), open = Math.max.apply(null, ys) - Math.min.apply(null, ys);
+      if (open < ry * 0.45) continue; // œil quasi fermé : rien à dessiner
+      var R = Math.ceil(Math.max(rx, ry) * 1.2) + 2, size = R * 2;
+      var bx = Math.round(c[0] - R), by = Math.round(c[1] - R);
+      if (bx < 0 || by < 0 || bx + size > w || by + size > h) continue; // œil coupé par le bord de l’image
+      if (eyeCv.width < size || eyeCv.height < size) { eyeCv.width = eyeCv.height = Math.max(size, 96); }
+      var e = eyeCtx;
+      e.setTransform(1, 0, 0, 1, 0, 0); e.globalCompositeOperation = 'source-over'; e.globalAlpha = 1;
+      e.clearRect(0, 0, eyeCv.width, eyeCv.height);
+      // 1) la lentille
+      e.save(); e.translate(c[0] - bx, c[1] - by); e.rotate(ang); e.scale(rx / 256, ry / 256);
+      e.globalAlpha = state.intensity; e.drawImage(sprite, -256, -256); e.restore();
+      // 2) la lumière filmée : modelé (soft-light), ombre de paupière (multiply), reflets cornéens (lighten)
+      e.globalCompositeOperation = 'soft-light'; e.globalAlpha = 0.85; e.drawImage(canvas, bx, by, size, size, 0, 0, size, size);
+      e.globalCompositeOperation = 'multiply'; e.globalAlpha = 0.18; e.drawImage(canvas, bx, by, size, size, 0, 0, size, size);
+      e.globalCompositeOperation = 'lighten'; e.globalAlpha = 0.6; e.drawImage(canvas, bx, by, size, size, 0, 0, size, size);
+      // 3) on ne garde que la zone imprimée de la lentille : le blanc de l’œil et la pupille restent ceux de l’image
+      e.globalCompositeOperation = 'destination-in'; e.globalAlpha = 1;
+      e.save(); e.translate(c[0] - bx, c[1] - by); e.rotate(ang); e.scale(rx / 256, ry / 256); e.drawImage(sprite, -256, -256); e.restore();
+      e.globalCompositeOperation = 'source-over';
+      // 4) pose dans l’image, sous les paupières
+      ctx.save();
+      ctx.beginPath(); for (var p = 0; p < pts.length; p++) { if (p) ctx.lineTo(pts[p][0], pts[p][1]); else ctx.moveTo(pts[p][0], pts[p][1]); } ctx.closePath(); ctx.clip();
+      ctx.drawImage(eyeCv, 0, 0, size, size, bx, by, size, size);
+      ctx.restore();
+    }
+  }
+
+  // ── Moteur de suivi (MediaPipe) ──
+  async function useEngine(delegate, runningMode) {
+    if (engine.lm && engine.delegate === delegate) {
+      if (engine.runningMode !== runningMode) { await engine.lm.setOptions({ runningMode: runningMode }); engine.runningMode = runningMode; }
+      return;
+    }
+    // Le chargeur MediaPipe efface sa fabrique après usage : on la remet avant chaque création.
+    self.ModuleFactory = window.__MPFactory; self.Module = { wasmBinary: engine.wasm.buffer };
+    var lm = await window.MPVision.FaceLandmarker.createFromOptions({ wasmLoaderPath: '', wasmBinaryPath: '' }, {
+      baseOptions: { modelAssetBuffer: engine.model, delegate: delegate }, runningMode: runningMode, numFaces: 1,
+      minFaceDetectionConfidence: 0.4, minFacePresenceConfidence: 0.4, minTrackingConfidence: 0.4,
+      outputFaceBlendshapes: false, outputFacialTransformationMatrixes: false
+    });
+    var old = engine.lm;
+    engine.lm = lm; engine.delegate = delegate; engine.runningMode = runningMode;
+    if (old) { try { old.close(); } catch (e) {} }
+  }
+  // Autotest : une image de référence embarquée dont on connaît la position des iris. Révèle un moteur qui calcule faux.
+  var REF = { src: 'data:image/jpeg;base64,__REF_B64__', iris: __REF_IRIS__ };
+  async function selfTest() {
+    var d = engine.delegate;
+    try {
+      var img = new Image(); img.src = REF.src; await img.decode();
+      var c = document.createElement('canvas'); c.width = img.naturalWidth; c.height = img.naturalHeight; c.getContext('2d').drawImage(img, 0, 0);
+      var back = engine.runningMode;
+      if (back !== 'IMAGE') { await engine.lm.setOptions({ runningMode: 'IMAGE' }); engine.runningMode = 'IMAGE'; }
+      var r = engine.lm.detect(c), ok = false, got = null;
+      if (r.faceLandmarks && r.faceLandmarks.length === 1) {
+        var f = r.faceLandmarks[0]; got = [[f[468].x, f[468].y], [f[473].x, f[473].y]];
+        ok = !REF.iris || (dist(got[0], REF.iris[0]) < 0.04 && dist(got[1], REF.iris[1]) < 0.04);
+      }
+      if (back && back !== 'IMAGE') { await engine.lm.setOptions({ runningMode: back }); engine.runningMode = back; }
+      engine.selfTest[d] = ok; window.__selftest = { delegate: d, ok: ok, iris: got };
+    } catch (e) { engine.selfTest[d] = false; window.__selftest = { delegate: d, ok: false, error: String(e && e.message || e) }; }
+    return engine.selfTest[d];
+  }
+  async function setStrategy(i, runningMode) {
+    var s = STRATEGIES[i];
+    try { await useEngine(s.delegate, runningMode); }
+    catch (e) { return false; }
+    if (engine.selfTest[s.delegate] === undefined) await selfTest();
+    state.strategy = i; state.strategySince = performance.now(); state.smooth = [null, null];
+    showDiag(); return true;
+  }
+  async function nextStrategy() {
+    state.busy = true;
+    try {
+      var i = state.strategy;
+      for (var n = 0; n < STRATEGIES.length; n++) {
+        i = (i + 1) % STRATEGIES.length;
+        if (i === 0) state.cycleDone = true;
+        // on saute un moteur dont l’autotest a échoué, sauf si c’est le dernier recours
+        if (engine.selfTest[STRATEGIES[i].delegate] === false && i !== 0) continue;
+        if (await setStrategy(i, 'VIDEO')) break;
+      }
+    } finally { state.busy = false; state.strategySince = performance.now(); }
+  }
+
+  // ── Caméra ──
+  function stopCamera() {
+    if (state.raf) cancelAnimationFrame(state.raf); state.raf = 0;
+    if (state.stream) { state.stream.getTracks().forEach(function (t) { t.stop(); }); state.stream = null; }
+    try { video.pause(); } catch (e) {}
+    try { video.srcObject = null; } catch (e) {}
+    if (state.wakeLock) { try { state.wakeLock.release(); } catch (e) {} state.wakeLock = null; }
+    state.faces = -1; state.smooth = [null, null];
+    $('btn-cam').setAttribute('aria-pressed', 'false');
+    $('diag-fps').textContent = '';
+  }
+  function waitEvent(target, name, ms) {
+    return new Promise(function (res, rej) {
+      var timer = setTimeout(function () { target.removeEventListener(name, on); rej(new Error(name + ' : rien après ' + Math.round(ms / 1000) + ' s')); }, ms);
+      function on() { clearTimeout(timer); res(); }
+      target.addEventListener(name, on, { once: true });
+    });
+  }
+  function cameraFailed(title, text) {
+    stopCamera(); state.starting = false;
+    setBadges([{ kind: 'bad', text: title }]);
+    showEmpty(title, text);
+  }
+  async function startCamera() {
+    if (state.starting) return;
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      cameraFailed('Caméra indisponible ici', 'Ce navigateur ou ce cadre n’expose pas la caméra. Ouvrez la page dans Chrome, Edge, Safari ou Firefox, ou importez une photo.');
+      return;
+    }
+    state.starting = true;
+    stopCamera();
+    setMode('live'); empty.hidden = true;
+    setBadges([{ text: 'Caméra · demande d’accès…' }]);
+    var stream;
+    try {
+      stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user', width: { ideal: 1280 }, height: { ideal: 720 }, frameRate: { ideal: 30 } }, audio: false });
+    } catch (e1) {
+      try { stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false }); }
+      catch (e) {
+        var name = e && e.name ? e.name : String(e);
+        var framed = window.self !== window.top;
+        var why = name === 'NotReadableError' || name === 'AbortError' ? 'La caméra est déjà utilisée par une autre application ou un autre onglet : fermez-les, puis relancez.'
+                : name === 'NotFoundError' || name === 'OverconstrainedError' ? 'Aucune caméra détectée sur cet appareil.'
+                : name === 'SecurityError' ? 'Le navigateur refuse la caméra sur cette adresse.'
+                : framed ? 'Ce cadre d’affichage n’autorise pas la caméra. Importez une photo ici, ou ouvrez la page directement dans votre navigateur.'
+                : 'Autorisez la caméra (icône cadenas ou caméra dans la barre d’adresse), puis relancez.';
+        cameraFailed('Caméra refusée · ' + name, why);
+        return;
+      }
+    }
+    if (state.mode !== 'live') { stream.getTracks().forEach(function (t) { t.stop(); }); state.starting = false; return; }
+    state.stream = stream;
+    try {
+      setBadges([{ text: 'Caméra · ouverture du flux…' }]);
+      video.srcObject = stream;
+      if (video.readyState < 1) await waitEvent(video, 'loadedmetadata', 10000);
+      try { await video.play(); } catch (e) { if (!e || (e.name !== 'AbortError' && e.name !== 'NotAllowedError')) throw e; }
+      if (!video.videoWidth) await waitEvent(video, 'resize', 10000);
+      var fm = (stream.getVideoTracks()[0].getSettings() || {}).facingMode;
+      stage.classList.toggle('mirror', !/environment/i.test(fm || 'user'));
+      setBadges([{ text: 'Caméra · démarrage du suivi…' }]);
+      if (!(await setStrategy(state.strategy, 'VIDEO'))) { if (!(await setStrategy(0, 'VIDEO'))) throw new Error('moteur de suivi indisponible'); }
+    } catch (e) {
+      cameraFailed('Caméra · démarrage impossible', 'Relancez la caméra. Si cela se reproduit, rechargez la page. Détail : ' + String(e && e.message || e));
+      return;
+    }
+    state.starting = false; state.busy = false; state.lastTs = -1; state.lastVideoTime = -1; state.frames = 0; state.fpsAt = performance.now();
+    state.strategySince = performance.now(); state.trackErrors = 0;
+    $('btn-cam').setAttribute('aria-pressed', 'true');
+    setBadges([{ kind: 'warn', text: 'En direct · recherche du visage…' }]);
+    stream.getVideoTracks()[0].addEventListener('ended', function () {
+      if (state.mode === 'live' && state.stream === stream) cameraFailed('Caméra déconnectée', 'Le flux vidéo s’est arrêté. Relancez la caméra.');
+    });
+    if (navigator.wakeLock && navigator.wakeLock.request) { navigator.wakeLock.request('screen').then(function (l) { state.wakeLock = l; }, function () {}); }
+    state.raf = requestAnimationFrame(tick);
+  }
+  function tick() {
+    if (state.mode !== 'live') return;
+    state.raf = requestAnimationFrame(tick);
+    if (state.busy || document.hidden || video.readyState < 2 || !video.videoWidth) return;
+    var now = performance.now();
+    if (video.currentTime === state.lastVideoTime || now - state.lastRun < 30) return; // une image caméra = un traitement, 30/s au plus
+    state.lastVideoTime = video.currentTime; state.lastRun = now;
+    var w = video.videoWidth, h = video.videoHeight;
+    if (canvas.width !== w || canvas.height !== h) { canvas.width = w; canvas.height = h; }
+    // L’image et les lentilles sont peintes dans le même canvas, à partir de la même image caméra : aucun décalage possible.
+    ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1;
+    ctx.drawImage(video, 0, 0, w, h);
+    var ts = now <= state.lastTs ? state.lastTs + 1 : now; state.lastTs = ts;
+    var res, t0 = performance.now();
+    try { res = engine.lm.detectForVideo(STRATEGIES[state.strategy].input === 'canvas' ? canvas : video, ts); }
+    catch (e) {
+      if (++state.trackErrors > 20) { state.trackErrors = 0; if (!state.cycleDone) nextStrategy(); else cameraFailed('Suivi du visage en erreur', 'Relancez la caméra. Détail : ' + String(e && e.message || e)); }
+      return;
+    }
+    state.trackErrors = 0; state.detMs = state.detMs * 0.9 + (performance.now() - t0) * 0.1;
+    var faces = res && res.faceLandmarks ? res.faceLandmarks : [];
+    if (faces.length) {
+      drawLenses(faces[0], w, h, true);
+      if (!state.everFace) { state.everFace = true; store('essayage.strategie', String(state.strategy)); }
+    } else {
+      state.smooth = [null, null];
+      // Aucun visage depuis 4 s et jamais vu sur ce flux : on essaie la stratégie suivante (autre entrée, autre moteur).
+      if (!state.everFace && !state.cycleDone && now - state.strategySince > 4000) nextStrategy();
+    }
+    if (faces.length !== state.faces) {
+      state.faces = faces.length;
+      setBadges(faces.length ? [{ kind: 'ok', text: 'En direct · visage suivi' }]
+        : [{ kind: 'warn', text: state.everFace || !state.cycleDone ? 'En direct · aucun visage' : 'Aucun visage · placez-vous face à la caméra, bien éclairé' }]);
+    }
+    state.frames++;
+    if (now - state.fpsAt > 1000) {
+      $('diag-fps').textContent = Math.round(state.frames * 1000 / (now - state.fpsAt)) + ' images/s · ' + Math.round(state.detMs) + ' ms · ' + w + '×' + h;
+      state.frames = 0; state.fpsAt = now;
+    }
+  }
+
+  // ── Photo ──
+  async function loadPhoto(file) {
+    if (!file) return;
+    stopCamera(); state.starting = false;
+    setMode('photo'); empty.hidden = true;
+    setBadges([{ text: 'Analyse de la photo…' }]);
+    var bmp;
+    try { bmp = await createImageBitmap(file); } catch (e) { cameraFailed('Image illisible', 'Ce fichier n’est pas une image lisible par le navigateur. Essayez un JPG ou un PNG.'); return; }
+    var scale = Math.min(1, 1600 / Math.max(bmp.width, bmp.height));
+    var off = document.createElement('canvas'); off.width = Math.round(bmp.width * scale); off.height = Math.round(bmp.height * scale);
+    off.getContext('2d').drawImage(bmp, 0, 0, off.width, off.height);
+    state.image = off; canvas.width = off.width; canvas.height = off.height;
+    stage.classList.remove('mirror');
+    try {
+      await useEngine(engine.delegate, 'IMAGE');
+      state.imageResult = engine.lm.detect(off);
+      if (!state.imageResult.faceLandmarks.length) { // second essai avec l’autre moteur avant de conclure
+        var other = engine.delegate === 'CPU' ? 'GPU' : 'CPU';
+        try { await useEngine(other, 'IMAGE'); var r2 = engine.lm.detect(off); if (r2.faceLandmarks.length) state.imageResult = r2; else await useEngine(other === 'CPU' ? 'GPU' : 'CPU', 'IMAGE'); } catch (e) {}
+        showDiag();
+      }
+    } catch (e) { cameraFailed('Analyse impossible', 'Le suivi du visage a échoué sur cette photo. Détail : ' + String(e && e.message || e)); return; }
+    var n = state.imageResult.faceLandmarks.length;
+    setBadges(n ? [{ kind: 'ok', text: 'Photo · visage détecté' }] : [{ kind: 'warn', text: 'Photo · aucun visage détecté' }]);
+    redrawPhoto();
+  }
+  function redrawPhoto() {
+    if (state.mode !== 'photo' || !state.image || !state.imageResult) return;
+    var w = canvas.width, h = canvas.height;
+    ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1;
+    ctx.drawImage(state.image, 0, 0, w, h);
+    state.imageResult.faceLandmarks.forEach(function (lm) { drawLenses(lm, w, h, false); });
+  }
+
+  // ── Commandes ──
+  function wire() {
+    $('btn-cam').addEventListener('click', startCamera);
+    $('btn-cam-empty').addEventListener('click', startCamera);
+    var pick = function () { $('file').value = ''; $('file').click(); };
+    $('btn-photo').addEventListener('click', pick);
+    $('btn-photo-empty').addEventListener('click', pick);
+    $('file').addEventListener('change', function (e) { loadPhoto(e.target.files && e.target.files[0]); });
+    var hold = $('btn-hold');
+    var down = function (e) { if (e.cancelable) e.preventDefault(); state.hold = true; hold.setAttribute('aria-pressed', 'true'); redrawPhoto(); };
+    var up = function () { if (!state.hold) return; state.hold = false; hold.setAttribute('aria-pressed', 'false'); redrawPhoto(); };
+    hold.addEventListener('pointerdown', down); hold.addEventListener('pointerup', up); hold.addEventListener('pointerleave', up); hold.addEventListener('pointercancel', up);
+    hold.addEventListener('contextmenu', function (e) { e.preventDefault(); });
+    hold.addEventListener('keydown', function (e) { if (e.key === ' ' || e.key === 'Enter') down(e); });
+    hold.addEventListener('keyup', up);
+    $('btn-half').addEventListener('click', function () { state.half = !state.half; this.setAttribute('aria-pressed', String(state.half)); redrawPhoto(); });
+    $('intensity').addEventListener('input', function () { state.intensity = this.value / 100; $('intensity-out').value = this.value; redrawPhoto(); });
+    $('pupil').addEventListener('input', function () { state.pupil = this.value / 100; $('pupil-out').value = this.value; redrawPhoto(); });
+    $('btn-engine').addEventListener('click', async function () {
+      if (state.busy) return;
+      state.busy = true; state.cycleDone = true; // choix manuel : on arrête la recherche automatique
+      var want = engine.delegate === 'CPU' ? 'GPU' : 'CPU', target = want === 'CPU' ? 0 : 2;
+      try {
+        if (await setStrategy(target, state.mode === 'live' ? 'VIDEO' : 'IMAGE')) store('essayage.strategie', String(target));
+        if (state.mode === 'photo' && state.image) { state.imageResult = engine.lm.detect(state.image); redrawPhoto(); }
+      } finally { state.busy = false; }
+    });
+    document.addEventListener('visibilitychange', function () {
+      if (!document.hidden && state.mode === 'live' && navigator.wakeLock && navigator.wakeLock.request) navigator.wakeLock.request('screen').then(function (l) { state.wakeLock = l; }, function () {});
+    });
+    window.addEventListener('pagehide', stopCamera);
+  }
+
+  // ── Démarrage : décompression des ressources embarquées, puis MediaPipe ──
+  function octets(b64) { var bin = atob(b64), n = bin.length, out = new Uint8Array(n); for (var i = 0; i < n; i++) out[i] = bin.charCodeAt(i); return out; }
+  async function gunzip(b64) {
+    var flux = new Blob([octets(b64)]).stream().pipeThrough(new DecompressionStream('gzip'));
+    return new Uint8Array(await new Response(flux).arrayBuffer());
+  }
+  var ASSETS = { wasm: "__WASM_B64__", model: "__MODEL_B64__" };
+
+  (async function main() {
+    buildPalette(); wire();
+    selectBrand(BRANDS[0], false); selectColor(BRANDS[0].colors[5]); // Blue : la teinte la plus parlante pour vérifier que ça marche.
+    if (typeof DecompressionStream === 'undefined') return fail('Navigateur trop ancien.', 'Il faut Chrome 80+, Edge 80+, Safari 16.4+ ou Firefox 113+.');
+    if (!window.MPVision || !window.MPVision.FaceLandmarker || !window.__MPFactory) return fail('Moteur de suivi absent.', 'Le bundle MediaPipe n’a pas été chargé.');
+    try {
+      etat.textContent = 'Décompression du moteur (1/2)…'; jauge.style.width = '15%';
+      engine.wasm = await gunzip(ASSETS.wasm); jauge.style.width = '55%';
+      etat.textContent = 'Décompression du modèle (2/2)…';
+      engine.model = await gunzip(ASSETS.model); jauge.style.width = '75%';
+    } catch (e) { return fail('Décompression impossible.', String(e && e.message || e)); }
+    ASSETS.wasm = ASSETS.model = null;
+    etat.textContent = 'Démarrage du suivi du visage…';
+    var forced = (/[?&]moteur=(cpu|gpu)/i.exec(location.search) || [])[1];
+    var saved = parseInt(store('essayage.strategie'), 10);
+    var first = forced ? (forced.toLowerCase() === 'gpu' ? 2 : 0) : (saved >= 0 && saved < STRATEGIES.length ? saved : 0);
+    if (forced) state.cycleDone = true;
+    var started = await setStrategy(first, 'IMAGE');
+    if (!started) started = await setStrategy(first < 2 ? 2 : 0, 'IMAGE');
+    if (!started) return fail('Le suivi du visage n’a pas démarré.', 'Ni le moteur CPU ni le moteur GPU ne se lancent dans ce navigateur.');
+    // Si le moteur choisi rate l’image de référence, on prend l’autre s’il la réussit.
+    if (engine.selfTest[engine.delegate] === false && !forced) {
+      var alt = state.strategy < 2 ? 2 : 0, keep = state.strategy;
+      if (!(await setStrategy(alt, 'IMAGE')) || engine.selfTest[engine.delegate] === false) await setStrategy(keep, 'IMAGE');
+    }
+    $('btn-engine').hidden = false;
+    jauge.style.width = '100%';
+    boot.remove();
+    setBadges([{ text: 'Prêt' }]);
+  })();
+})();
+</script>
