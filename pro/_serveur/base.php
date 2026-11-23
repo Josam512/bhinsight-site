@@ -302,11 +302,12 @@ function bh_eur($c) { return number_format($c / 100, 2, ',', ' ') . ' €'; }
 /* ------------------------------------------------------------------ émetteur des factures (RVF) */
 function bh_emetteur()
 {
-    /* Vendeur : RVF, d'après le registre (RCS Rennes 907 839 898, SAS au capital de 1 000 €, siège à Cesson-Sévigné ; vérifié le 23/11/2026).
+    /* Vendeur : RVF (RCS Rennes 907 839 898, SAS au capital de 1 000 €, d'après le registre vérifié le 23/11/2026).
+       Adresse : Boulogne-Billancourt, à la demande du propriétaire (23/11/2026), à la place du siège encore inscrit à Cesson-Sévigné.
        Tout est modifiable dans Réglages ; les mentions du bas sont recomposées à partir de ces champs. */
     $d = array(
         'raison' => 'RVF', 'forme' => 'SAS', 'capital' => '1 000 €', 'rcs_ville' => 'Rennes', 'siren' => '907 839 898', 'tva' => 'FR 72 907 839 898',
-        'adresse' => '6 rue du Bas-Village', 'cp' => '35510', 'ville' => 'Cesson-Sévigné', 'pays' => 'France',
+        'adresse' => '6 rue de la Pyramide', 'cp' => '92100', 'ville' => 'Boulogne-Billancourt', 'pays' => 'France',
         'email' => BH_EMAIL_BH_DEFAUT,
         'delai' => 30,
         'escompte' => 'néant',
@@ -314,6 +315,12 @@ function bh_emetteur()
         'conditions' => '',
     );
     $r = json_decode((string) bh_reglage('emetteur', ''), true);
+    /* une seule fois : une adresse de Cesson-Sévigné déjà enregistrée dans Réglages passe à Boulogne-Billancourt (propriétaire, 23/11/2026) */
+    if (is_array($r) && isset($r['adresse']) && stripos($r['adresse'], 'Bas-Village') !== false && !bh_reglage('migration_boulogne')) {
+        $r['adresse'] = $d['adresse']; $r['cp'] = $d['cp']; $r['ville'] = $d['ville'];
+        bh_reglage_ecrire('emetteur', json_encode($r, JSON_UNESCAPED_UNICODE));
+        bh_reglage_ecrire('migration_boulogne', '1');
+    }
     $e = is_array($r) ? array_merge($d, $r) : $d;
     $e['delai'] = max(0, min(60, (int) $e['delai']));
     $e['mentions'] = implode(' · ', array_filter(array($e['raison'], trim($e['forme'] . ($e['capital'] !== '' ? ' au capital de ' . $e['capital'] : '')),
