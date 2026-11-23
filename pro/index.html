@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Connexion · BH Insight Pro</title>
+<link rel="icon" href="favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&amp;family=Instrument+Serif:ital@0;1&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="pro.css?v=1b95e66169">
+</head>
+<body data-page="connexion">
+<div class="pro">
+<main class="lagon" style="display:grid;place-items:center;padding:48px 0">
+<div aria-hidden="true"><span class="flot" style="--x:5%;--y:8%;--w:96px;--d:9s;--dl:-1s;--r:-18deg"><img src="img/opt-orange.webp" alt=""></span><span class="flot loin" style="--x:19%;--y:52%;--w:64px;--d:11s;--dl:-4s;--r:16deg"><img src="img/ab-jaune.webp" alt=""></span><span class="flot" style="--x:8%;--y:66%;--w:110px;--d:8.5s;--dl:-3s;--r:12deg"><img src="img/ab-lagon.webp" alt=""></span><span class="flot loin" style="--x:24%;--y:6%;--w:58px;--d:12s;--dl:-6s;--r:24deg"><img src="img/opt-vert.webp" alt=""></span><span class="flot" style="--x:80%;--y:6%;--w:104px;--d:10s;--dl:-2s;--r:20deg"><img src="img/ab-rose.webp" alt=""></span><span class="flot loin" style="--x:70%;--y:46%;--w:62px;--d:12.5s;--dl:-5s;--r:-22deg"><img src="img/opt-bleu.webp" alt=""></span><span class="flot" style="--x:86%;--y:58%;--w:116px;--d:9.5s;--dl:-7s;--r:-10deg"><img src="img/ab-vert.webp" alt=""></span><span class="flot loin" style="--x:66%;--y:78%;--w:60px;--d:11.5s;--dl:-2.5s;--r:28deg"><img src="img/opt-rose.webp" alt=""></span><span class="bulle" style="--x:12%;--s:10px;--d:7s;--dl:-1s"></span><span class="bulle" style="--x:27%;--s:6px;--d:9s;--dl:-4s"></span><span class="bulle" style="--x:33%;--s:14px;--d:11s;--dl:-7s"></span><span class="bulle" style="--x:61%;--s:8px;--d:8s;--dl:-2s"></span><span class="bulle" style="--x:74%;--s:12px;--d:10s;--dl:-5s"></span><span class="bulle" style="--x:91%;--s:7px;--d:7.5s;--dl:-3s"></span></div>
+<section class="login" aria-labelledby="titre-connexion">
+<img src="img/logo-sombre.png" alt="BH Insight" style="height:34px;width:auto;margin:0 auto 22px">
+<p class="eyebrow mono" style="text-align:center">( Espace pro )</p>
+<h1 id="titre-connexion" class="h1" style="text-align:center;font-size:44px;margin-bottom:24px">Bonjour, <em style="white-space:nowrap">connectez-vous.</em></h1>
+<div id="msg" style="margin-bottom:14px"></div>
+<form id="f-connexion" style="display:flex;flex-direction:column;gap:16px">
+<div class="field"><label for="c-email">Adresse e-mail</label><input id="c-email" class="input" name="email" type="email" autocomplete="username" required></div>
+<div class="field"><label for="c-mdp">Mot de passe</label><input id="c-mdp" class="input" name="mdp" type="password" autocomplete="current-password" required></div>
+<button class="lien lien-btn" id="voir-oubli" type="button" style="align-self:flex-end;font-size:14px;min-height:44px">Mot de passe oublié ?</button>
+<button class="btn btn-o btn-full" type="submit">Connexion</button>
+<a class="btn btn-line btn-full" href="inscription.html">Créer un compte pro</a>
+</form>
+<form id="f-oubli" hidden style="display:flex;flex-direction:column;gap:12px;margin-top:18px;padding-top:18px;border-top:1px solid #E8DDCB">
+<p style="margin:0;font-size:15px">Indiquez votre adresse e-mail : nous vous envoyons un lien pour choisir un nouveau mot de passe.</p>
+<div class="field"><label for="c-email-oubli">Adresse e-mail</label><input id="c-email-oubli" class="input" name="email" type="email" autocomplete="username" required></div>
+<button class="btn btn-navy btn-full" type="submit">Recevoir le lien</button>
+</form>
+<form id="f-reinit" hidden style="display:flex;flex-direction:column;gap:16px">
+<p style="margin:0;font-size:15px">Choisissez votre nouveau mot de passe (8 caractères ou plus).</p>
+<div class="field"><label for="c-mdp-n">Nouveau mot de passe</label><input id="c-mdp-n" class="input" name="mdp" type="password" autocomplete="new-password" required minlength="8"></div>
+<div class="field"><label for="c-mdp2">Encore une fois</label><input id="c-mdp2" class="input" name="mdp2" type="password" autocomplete="new-password" required minlength="8"></div>
+<button class="btn btn-o btn-full" type="submit">Enregistrer</button>
+</form>
+<p class="mute" style="margin:22px 0 0;text-align:center;font-size:13px">Réservé aux professionnels · nouveau compte ouvert après validation par BH Insight</p>
+</section>
+</main>
+</div>
+<script src="pro.js?v=981d105e21"></script>
+</body>
+</html>

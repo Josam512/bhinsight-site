@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Espace BH Insight · BH Insight Pro</title>
+<link rel="icon" href="../favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&amp;family=Instrument+Serif:ital@0;1&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../pro.css?v=1b95e66169">
+</head>
+<body data-page="connexion">
+<div class="pro">
+<main class="lagon" style="display:grid;place-items:center;padding:48px 0">
+<div aria-hidden="true"><span class="flot" style="--x:5%;--y:8%;--w:96px;--d:9s;--dl:-1s;--r:-18deg"><img src="../img/opt-orange.webp" alt=""></span><span class="flot loin" style="--x:19%;--y:52%;--w:64px;--d:11s;--dl:-4s;--r:16deg"><img src="../img/ab-jaune.webp" alt=""></span><span class="flot" style="--x:8%;--y:66%;--w:110px;--d:8.5s;--dl:-3s;--r:12deg"><img src="../img/ab-lagon.webp" alt=""></span><span class="flot loin" style="--x:24%;--y:6%;--w:58px;--d:12s;--dl:-6s;--r:24deg"><img src="../img/opt-vert.webp" alt=""></span><span class="flot" style="--x:80%;--y:6%;--w:104px;--d:10s;--dl:-2s;--r:20deg"><img src="../img/ab-rose.webp" alt=""></span><span class="flot loin" style="--x:70%;--y:46%;--w:62px;--d:12.5s;--dl:-5s;--r:-22deg"><img src="../img/opt-bleu.webp" alt=""></span><span class="flot" style="--x:86%;--y:58%;--w:116px;--d:9.5s;--dl:-7s;--r:-10deg"><img src="../img/ab-vert.webp" alt=""></span><span class="flot loin" style="--x:66%;--y:78%;--w:60px;--d:11.5s;--dl:-2.5s;--r:28deg"><img src="../img/opt-rose.webp" alt=""></span><span class="bulle" style="--x:12%;--s:10px;--d:7s;--dl:-1s"></span><span class="bulle" style="--x:27%;--s:6px;--d:9s;--dl:-4s"></span><span class="bulle" style="--x:33%;--s:14px;--d:11s;--dl:-7s"></span><span class="bulle" style="--x:61%;--s:8px;--d:8s;--dl:-2s"></span><span class="bulle" style="--x:74%;--s:12px;--d:10s;--dl:-5s"></span><span class="bulle" style="--x:91%;--s:7px;--d:7.5s;--dl:-3s"></span></div>
+<section class="login" aria-labelledby="titre">
+<img src="../img/logo-sombre.png" alt="BH Insight" style="height:34px;width:auto;margin:0 auto 22px">
+<p class="eyebrow mono" style="text-align:center">( Espace BH Insight )</p>
+<h1 id="titre" class="h1" style="text-align:center;font-size:40px;margin-bottom:22px">Gestion des <em>commandes.</em></h1>
+<div id="msg" style="margin-bottom:14px"></div>
+<form id="f-installer" hidden style="display:flex;flex-direction:column;gap:16px">
+<p style="margin:0;font-size:15px">Première ouverture : saisissez le code d’installation reçu, puis choisissez votre mot de passe (10 caractères ou plus).</p>
+<div class="field"><label for="c-code">Code d’installation</label><input id="c-code" class="input" name="code" type="text" autocomplete="off" required></div><div class="field"><label for="c-mdp">Mot de passe</label><input id="c-mdp" class="input" name="mdp" type="password" autocomplete="new-password" required minlength="10"></div><div class="field"><label for="c-mdp2">Encore une fois</label><input id="c-mdp2" class="input" name="mdp2" type="password" autocomplete="new-password" required minlength="10"></div>
+<button class="btn btn-o btn-full" type="submit">Installer et entrer</button>
+</form>
+<form id="f-connexion" hidden style="display:flex;flex-direction:column;gap:16px">
+<div class="field"><label for="c-mdp-cx">Mot de passe</label><input id="c-mdp-cx" class="input" name="mdp" type="password" autocomplete="current-password" required></div>
+<button class="btn btn-o btn-full" type="submit">Entrer</button>
+<div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px"><button class="lien lien-btn" type="button" id="oubli" style="min-height:44px">Mot de passe oublié ?</button><button class="lien lien-btn" type="button" id="voir-secours" style="min-height:44px">J’ai un code de secours</button></div>
+</form>
+<form id="f-secours" hidden style="display:flex;flex-direction:column;gap:16px">
+<div class="field"><label for="c-code-s">Code de secours</label><input id="c-code-s" class="input" name="code" type="text" autocomplete="off" required></div><div class="field"><label for="c-mdp-s">Nouveau mot de passe</label><input id="c-mdp-s" class="input" name="mdp" type="password" autocomplete="new-password" required minlength="10"></div><div class="field"><label for="c-mdp2-s">Encore une fois</label><input id="c-mdp2-s" class="input" name="mdp2" type="password" autocomplete="new-password" required minlength="10"></div>
+<button class="btn btn-o btn-full" type="submit">Enregistrer et entrer</button>
+<button class="lien lien-btn" type="button" data-retour-connexion style="min-height:44px">← Retour</button>
+</form>
+<form id="f-reinit" hidden style="display:flex;flex-direction:column;gap:16px">
+<p style="margin:0;font-size:15px">Choisissez votre nouveau mot de passe (10 caractères ou plus).</p>
+<div class="field"><label for="c-mdp-r">Nouveau mot de passe</label><input id="c-mdp-r" class="input" name="mdp" type="password" autocomplete="new-password" required minlength="10"></div><div class="field"><label for="c-mdp2-r">Encore une fois</label><input id="c-mdp2-r" class="input" name="mdp2" type="password" autocomplete="new-password" required minlength="10"></div>
+<button class="btn btn-o btn-full" type="submit">Enregistrer et entrer</button>
+</form>
+</section>
+</main>
+</div>
+<script src="../doc.js?v=89901efcd9"></script>
+<script src="admin.js?v=ae41c79fbb"></script>
+</body>
+</html>

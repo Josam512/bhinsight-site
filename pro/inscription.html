@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Créer un compte · BH Insight Pro</title>
+<link rel="icon" href="favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&amp;family=Instrument+Serif:ital@0;1&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="pro.css?v=1b95e66169">
+</head>
+<body data-page="inscription">
+<div class="pro">
+<header class="top"><nav class="nav" aria-label="Espace pro"><a class="nav-brand" href="index.html" aria-label="BH Insight Pro, connexion"><img src="img/logo-clair.png" alt="BH Insight"><span class="nav-tag mono">Pro</span></a><a class="nav-cta" href="index.html">Déjà client ? Connexion</a></nav></header>
+<main class="pg">
+<div id="etape-form">
+<div class="head-row"><div><p class="eyebrow mono">( Inscription )</p><h1 class="h1">Ouvrir un <em>compte pro.</em></h1></div></div>
+<div class="side">
+<form id="f-inscription" class="card pad side-main" style="display:flex;flex-direction:column;gap:26px">
+<section style="display:flex;flex-direction:column;gap:16px"><h2 class="h3">Votre société</h2><div class="grid2">
+<div class="field"><label for="c-societe">Raison sociale</label><input id="c-societe" class="input" name="societe" type="text" autocomplete="organization" required></div><div class="field"><label for="c-enseigne">Enseigne</label><input id="c-enseigne" class="input" name="enseigne" type="text"></div><div class="field"><label for="c-siret">N° SIRET</label><input id="c-siret" class="input" name="siret" type="text" required inputmode="numeric"></div><div class="field"><label for="c-tva">N° TVA intracommunautaire</label><input id="c-tva" class="input" name="tva" type="text"></div>
+<div class="field" style="grid-column: 1 / -1"><label for="c-adresse">Adresse</label><input id="c-adresse" class="input" name="adresse" type="text" autocomplete="street-address" required></div><div class="field"><label for="c-cp">Code postal</label><input id="c-cp" class="input" name="cp" type="text" autocomplete="postal-code" required></div><div class="field"><label for="c-ville">Ville</label><input id="c-ville" class="input" name="ville" type="text" autocomplete="address-level2" required></div>
+</div>
+<label class="coche"><input type="checkbox" name="autre_livraison">Livrer à une autre adresse</label>
+<div id="bloc-livraison" class="grid2" hidden>
+<div class="field"><label for="c-l_societe">Nom du magasin livré</label><input id="c-l_societe" class="input" name="l_societe" type="text"></div><div class="field"><label for="c-l_nom">À l’attention de</label><input id="c-l_nom" class="input" name="l_nom" type="text"></div><div class="field" style="grid-column: 1 / -1"><label for="c-l_adresse">Adresse de livraison</label><input id="c-l_adresse" class="input" name="l_adresse" type="text"></div><div class="field"><label for="c-l_cp">Code postal</label><input id="c-l_cp" class="input" name="l_cp" type="text"></div><div class="field"><label for="c-l_ville">Ville</label><input id="c-l_ville" class="input" name="l_ville" type="text"></div>
+</div>
+</section>
+<div class="sep" style="margin:0"></div>
+<section style="display:flex;flex-direction:column;gap:16px"><h2 class="h3">Vos coordonnées</h2><div class="grid2">
+<div class="field"><label for="c-nom">Nom</label><input id="c-nom" class="input" name="nom" type="text" autocomplete="family-name" required></div><div class="field"><label for="c-prenom">Prénom</label><input id="c-prenom" class="input" name="prenom" type="text" autocomplete="given-name" required></div><div class="field"><label for="c-tel">Téléphone</label><input id="c-tel" class="input" name="tel" type="tel" autocomplete="tel" required></div>
+<div class="field"><label for="c-email">E-mail (votre identifiant)</label><input id="c-email" class="input" name="email" type="email" autocomplete="email" required></div><div class="field"><label for="c-mdp">Mot de passe (8 caractères ou plus)</label><input id="c-mdp" class="input" name="mdp" type="password" autocomplete="new-password" required minlength="8"></div>
+</div></section>
+<label class="coche"><input type="checkbox" name="cgv" required><span>J’accepte les conditions générales de vente de RVF, société éditrice de la marque BH Insight.</span></label>
+<div id="msg"></div>
+<div style="display:flex;flex-wrap:wrap;gap:12px"><button class="btn btn-o" type="submit">Envoyer ma demande</button><a class="btn btn-line" href="index.html">Annuler</a></div>
+</form>
+<aside class="side-menu" style="max-width:340px;flex-basis:300px;gap:14px">
+<div class="card pad" style="background:#0A1E3C;color:#F6F3EE;border-color:#0A1E3C">
+<p class="eyebrow mono" style="color:#A9B8CB">( Comment ça marche )</p>
+<ol style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:16px">
+<li style="display:flex;gap:12px"><span class="badge-n" style="flex:none">1</span><span>Vous envoyez votre demande.</span></li>
+<li style="display:flex;gap:12px"><span class="badge-n" style="flex:none">2</span><span>BH Insight valide votre compte et vous envoie votre n° client par e-mail.</span></li>
+<li style="display:flex;gap:12px"><span class="badge-n" style="flex:none">3</span><span>Vous commandez quand vous voulez, au flacon, au carton ou en lot.</span></li>
+</ol></div>
+<div class="card pad" style="display:flex;align-items:center;gap:14px"><img src="img/opt-orange.webp" alt="" style="height:92px;width:auto"><img src="img/ab-lagon.webp" alt="" style="height:92px;width:auto"><p style="margin:0;font-size:14px">8 couleurs · 30 ml · sans alcool · made in France</p></div>
+</aside>
+</div>
+</div>
+<section id="etape-merci" class="card" hidden style="max-width:760px;margin:40px auto 0;padding:clamp(28px,5vw,56px);text-align:center;display:flex;flex-direction:column;align-items:center;gap:18px">
+<svg width="72" height="72" viewBox="0 0 72 72" aria-hidden="true"><circle cx="36" cy="36" r="33" fill="#FFF1DE" stroke="#FF7A00" stroke-width="3"/><path d="M22 37l10 10 19-21" fill="none" stroke="#0A1E3C" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+<p class="eyebrow mono" style="margin:0">( Demande envoyée )</p>
+<h1 class="h1" style="font-size:46px">Merci, à <em>très vite !</em></h1>
+<p class="mute" style="margin:0;max-width:520px">BH Insight valide votre compte et vous envoie votre n° client par e-mail. Vous pourrez alors vous connecter et commander.</p>
+<a class="btn btn-navy" href="index.html">Retour à la connexion</a>
+</section>
+</main>
+<footer class="foot"><span>BH Insight est une marque de RVF</span><span><a class="lien" href="mailto:contact@bhinsight.fr">contact@bhinsight.fr</a></span></footer>
+</div>
+<script src="pro.js?v=981d105e21"></script>
+</body>
+</html>

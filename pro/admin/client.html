@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Client · BH Insight Pro</title>
+<link rel="icon" href="../favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&amp;family=Instrument+Serif:ital@0;1&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../pro.css?v=1b95e66169">
+</head>
+<body class="verif" data-page="client">
+<div class="pro">
+<header class="top" id="tete"></header>
+<main class="pg">
+<a class="lien" href="clients.html">← Tous les clients</a>
+<div class="head-row" style="margin-top:18px"><div><p class="eyebrow mono">( Client )</p><h1 class="h1" id="titre">…</h1><p class="mute" id="sous-titre" style="margin:10px 0 0"></p></div>
+<div style="display:flex;flex-wrap:wrap;gap:8px"><button class="btn btn-o btn-sm" type="button" data-etat="actif">Ouvrir le compte</button><button class="btn btn-line btn-sm" type="button" data-etat="suspendu">Suspendre</button><button class="btn btn-line btn-sm" type="button" data-etat="refuse">Refuser</button></div></div>
+<div id="msg" style="margin-bottom:18px"></div>
+<div class="side">
+<form id="f-client" class="card pad side-main" style="display:flex;flex-direction:column;gap:20px">
+<div class="grid2">
+<div class="field"><label for="c-numero">N° client (donné à l’ouverture)</label><input id="c-numero" class="input" name="numero" type="text" maxlength="12"></div>
+<div class="field"><label for="c-etat">État du compte</label><select id="c-etat" name="etat" class="input"><option value="attente">En attente</option><option value="actif">Ouvert</option><option value="suspendu">Suspendu</option><option value="refuse">Refusé</option></select></div>
+<div class="field"><label for="c-societe">Raison sociale</label><input id="c-societe" class="input" name="societe" type="text" required></div><div class="field"><label for="c-enseigne">Enseigne</label><input id="c-enseigne" class="input" name="enseigne" type="text"></div><div class="field"><label for="c-siret">N° SIRET</label><input id="c-siret" class="input" name="siret" type="text"></div><div class="field"><label for="c-tva">N° TVA intracommunautaire</label><input id="c-tva" class="input" name="tva" type="text"></div><div class="field" style="grid-column: 1 / -1"><label for="c-adresse">Adresse</label><input id="c-adresse" class="input" name="adresse" type="text"></div><div class="field"><label for="c-cp">Code postal</label><input id="c-cp" class="input" name="cp" type="text"></div><div class="field"><label for="c-ville">Ville</label><input id="c-ville" class="input" name="ville" type="text"></div><div class="field"><label for="c-pays">Pays</label><input id="c-pays" class="input" name="pays" type="text"></div><div class="field"><label for="c-nom">Nom</label><input id="c-nom" class="input" name="nom" type="text"></div><div class="field"><label for="c-prenom">Prénom</label><input id="c-prenom" class="input" name="prenom" type="text"></div><div class="field"><label for="c-tel">Téléphone</label><input id="c-tel" class="input" name="tel" type="tel"></div><div class="field"><label for="c-email">E-mail (identifiant)</label><input id="c-email" class="input" name="email" type="email" required></div>
+<div class="field"><label for="c-mdp" id="mdp-aide">Nouveau mot de passe (vide = inchangé)</label><input id="c-mdp" class="input" name="mdp" type="text" autocomplete="off" minlength="8"></div>
+</div>
+<p class="mute" id="livraison" style="margin:0"></p>
+<label class="coche"><input type="checkbox" name="prevenir" checked>Prévenir le client par e-mail à l’ouverture de son compte</label>
+<div><button class="btn btn-o" type="submit">Enregistrer</button></div>
+</form>
+<aside id="bloc-commandes" style="flex:1 1 300px;max-width:420px"><h2 class="h3" style="margin-bottom:12px">Commandes</h2><div id="commandes"></div></aside>
+</div>
+</main>
+<footer class="foot"><span>BH Insight est une marque de RVF</span><span>Espace BH Insight</span></footer>
+</div>
+<script src="../doc.js?v=89901efcd9"></script>
+<script src="admin.js?v=ae41c79fbb"></script>
+</body>
+</html>

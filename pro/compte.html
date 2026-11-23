@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Mon compte · BH Insight Pro</title>
+<link rel="icon" href="favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&amp;family=Instrument+Serif:ital@0;1&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="pro.css?v=1b95e66169">
+</head>
+<body class="verif" data-page="compte">
+<div class="pro">
+<header class="top" id="tete"></header>
+<main class="pg">
+<div class="head-row"><div><p class="eyebrow mono">( Mon compte · n° client <span id="num-client"></span> )</p><h1 class="h1">Mon <em>compte.</em></h1></div></div>
+<div class="side">
+<nav class="side-menu" aria-label="Mon compte">
+<a href="#infos" data-onglet="infos">Mes informations</a><a href="#factures" data-onglet="factures">Mes factures</a><a href="#mdp" data-onglet="mdp">Mot de passe</a>
+<button class="btn btn-line btn-full" type="button" id="deconnexion" style="margin-top:12px">Déconnexion</button>
+</nav>
+<div class="side-main">
+<section id="p-infos" class="card pad">
+<form id="f-infos" style="display:flex;flex-direction:column;gap:20px">
+<p class="mute" style="margin:0">Identifiant : <b id="email-client"></b> (pour le changer, écrivez-nous)</p>
+<div class="grid2">
+<div class="field"><label for="c-societe">Raison sociale</label><input id="c-societe" class="input" name="societe" type="text" required></div><div class="field"><label for="c-enseigne">Enseigne</label><input id="c-enseigne" class="input" name="enseigne" type="text"></div><div class="field"><label for="c-siret">N° SIRET</label><input id="c-siret" class="input" name="siret" type="text"></div><div class="field"><label for="c-tva">N° TVA intracommunautaire</label><input id="c-tva" class="input" name="tva" type="text"></div>
+<div class="field" style="grid-column: 1 / -1"><label for="c-adresse">Adresse</label><input id="c-adresse" class="input" name="adresse" type="text" required></div><div class="field"><label for="c-cp">Code postal</label><input id="c-cp" class="input" name="cp" type="text" required></div><div class="field"><label for="c-ville">Ville</label><input id="c-ville" class="input" name="ville" type="text" required></div>
+<div class="field"><label for="c-nom">Nom</label><input id="c-nom" class="input" name="nom" type="text" required></div><div class="field"><label for="c-prenom">Prénom</label><input id="c-prenom" class="input" name="prenom" type="text"></div><div class="field"><label for="c-tel">Téléphone</label><input id="c-tel" class="input" name="tel" type="tel"></div>
+</div>
+<label class="coche"><input type="checkbox" name="autre_livraison">Livrer à une autre adresse que celle de la société</label>
+<div id="bloc-livraison" class="grid2" hidden>
+<div class="field"><label for="c-l_societe">Nom du magasin livré</label><input id="c-l_societe" class="input" name="l_societe" type="text"></div><div class="field"><label for="c-l_nom">À l’attention de</label><input id="c-l_nom" class="input" name="l_nom" type="text"></div><div class="field" style="grid-column: 1 / -1"><label for="c-l_adresse">Adresse de livraison</label><input id="c-l_adresse" class="input" name="l_adresse" type="text"></div><div class="field"><label for="c-l_cp">Code postal</label><input id="c-l_cp" class="input" name="l_cp" type="text"></div><div class="field"><label for="c-l_ville">Ville</label><input id="c-l_ville" class="input" name="l_ville" type="text"></div>
+</div>
+<div id="msg-infos"></div>
+<div><button class="btn btn-o" type="submit">Enregistrer</button></div>
+</form>
+</section>
+<section id="p-factures" hidden><div id="liste-factures"><p class="chargement">Chargement…</p></div>
+<p class="mute" style="font-size:13px">Factures établies par RVF, société éditrice de la marque BH Insight.</p></section>
+<section id="p-mdp" class="card pad" hidden>
+<form id="f-mdp" style="display:flex;flex-direction:column;gap:18px;max-width:520px">
+<div class="field"><label for="c-actuel">Mot de passe actuel</label><input id="c-actuel" class="input" name="actuel" type="password" autocomplete="current-password" required></div><div class="field"><label for="c-nouveau">Nouveau mot de passe (8 caractères ou plus)</label><input id="c-nouveau" class="input" name="nouveau" type="password" autocomplete="new-password" required minlength="8"></div><div class="field"><label for="c-nouveau2">Encore une fois</label><input id="c-nouveau2" class="input" name="nouveau2" type="password" autocomplete="new-password" required minlength="8"></div>
+<div id="msg-mdp"></div>
+<div><button class="btn btn-navy" type="submit">Changer le mot de passe</button></div>
+</form>
+</section>
+</div>
+</div>
+</main>
+<footer class="foot"><span>BH Insight est une marque de RVF</span><span><a class="lien" href="mailto:contact@bhinsight.fr">contact@bhinsight.fr</a></span></footer>
+</div>
+<script src="doc.js?v=89901efcd9"></script>
+<script src="pro.js?v=981d105e21"></script>
+</body>
+</html>

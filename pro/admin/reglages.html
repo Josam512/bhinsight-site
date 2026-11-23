@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Réglages · BH Insight Pro</title>
+<link rel="icon" href="../favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&amp;family=Instrument+Serif:ital@0;1&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../pro.css?v=1b95e66169">
+</head>
+<body class="verif" data-page="reglages">
+<div class="pro">
+<header class="top" id="tete"></header>
+<main class="pg">
+<div class="head-row"><div><p class="eyebrow mono">( Réglages )</p><h1 class="h1">Régla<em>ges.</em></h1></div></div>
+<div id="msg" style="margin-bottom:18px"></div>
+<form id="f-reglages" class="card pad" style="display:flex;flex-direction:column;gap:20px;max-width:980px">
+<h2 class="h3">Avis de la plateforme</h2>
+<div class="field"><label for="c-email_bh">E-mail qui reçoit les commandes, inscriptions et messages</label><input id="c-email_bh" class="input" name="email_bh" type="email" required></div>
+<div class="sep" style="margin:0"></div>
+<h2 class="h3">Factures et bons de livraison (vendeur)</h2>
+<div class="grid2">
+<div class="field"><label for="c-e_raison">Raison sociale</label><input id="c-e_raison" class="input" name="e_raison" type="text" required></div><div class="field"><label for="c-e_email">E-mail affiché</label><input id="c-e_email" class="input" name="e_email" type="email"></div><div class="field" style="grid-column: 1 / -1"><label for="c-e_adresse">Adresse</label><input id="c-e_adresse" class="input" name="e_adresse" type="text" required></div><div class="field"><label for="c-e_cp">Code postal</label><input id="c-e_cp" class="input" name="e_cp" type="text"></div><div class="field"><label for="c-e_ville">Ville</label><input id="c-e_ville" class="input" name="e_ville" type="text"></div><div class="field"><label for="c-e_pays">Pays</label><input id="c-e_pays" class="input" name="e_pays" type="text"></div>
+</div>
+<div class="field"><label for="c-mentions">Mentions de la société (bas des documents)</label><textarea id="c-mentions" name="e_mentions" class="input" style="min-height:70px"></textarea></div>
+<div class="field"><label for="c-conditions">Conditions de paiement</label><textarea id="c-conditions" name="e_conditions" class="input" style="min-height:70px"></textarea></div>
+<div class="field"><label for="c-penalites">Pénalités de retard</label><textarea id="c-penalites" name="e_penalites" class="input" style="min-height:70px"></textarea></div>
+<div><button class="btn btn-o" type="submit">Enregistrer</button></div>
+</form>
+<form id="f-mdp" class="card pad" style="display:flex;flex-direction:column;gap:16px;max-width:620px;margin-top:24px">
+<h2 class="h3">Mot de passe de l’espace BH Insight</h2>
+<div class="field"><label for="c-actuel">Mot de passe actuel</label><input id="c-actuel" class="input" name="actuel" type="password" autocomplete="current-password" required></div><div class="field"><label for="c-nouveau">Nouveau mot de passe (10 caractères ou plus)</label><input id="c-nouveau" class="input" name="nouveau" type="password" autocomplete="new-password" required minlength="10"></div><div class="field"><label for="c-nouveau2">Encore une fois</label><input id="c-nouveau2" class="input" name="nouveau2" type="password" autocomplete="new-password" required minlength="10"></div>
+<div id="msg-mdp"></div>
+<div><button class="btn btn-navy" type="submit">Changer le mot de passe</button></div>
+</form>
+</main>
+<footer class="foot"><span>BH Insight est une marque de RVF</span><span>Espace BH Insight</span></footer>
+</div>
+<script src="../doc.js?v=89901efcd9"></script>
+<script src="admin.js?v=ae41c79fbb"></script>
+</body>
+</html>

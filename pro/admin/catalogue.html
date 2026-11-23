@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Catalogue et prix · BH Insight Pro</title>
+<link rel="icon" href="../favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&amp;family=Instrument+Serif:ital@0;1&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../pro.css?v=1b95e66169">
+</head>
+<body class="verif" data-page="catalogue">
+<div class="pro">
+<header class="top" id="tete"></header>
+<main class="pg">
+<div class="head-row"><div><p class="eyebrow mono">( Ce que voient les clients )</p><h1 class="h1">Catalogue <em>et prix.</em></h1></div></div>
+<div id="msg" style="margin-bottom:18px"></div>
+<form id="f-catalogue" style="display:flex;flex-direction:column;gap:28px">
+<section class="card pad" style="display:flex;flex-direction:column;gap:16px"><h2 class="h3">Prix d’un flacon et cartons</h2>
+<div class="grid2">
+<div class="field"><label for="p-opt">Nettoyant Optique · prix HT d’un flacon (€)</label><input id="p-opt" class="input" inputmode="decimal" required></div>
+<div class="field"><label for="p-ab">Anti-Buée &amp; Nettoyant · prix HT d’un flacon (€)</label><input id="p-ab" class="input" inputmode="decimal" required></div>
+<div class="field"><label for="carton">Flacons par carton (même couleur)</label><input id="carton" class="input" type="number" min="1" max="500" required></div>
+</div>
+<p class="mute" style="margin:0;font-size:14px">Le prix d’un carton et d’un lot est calculé à partir du prix des flacons qu’il contient.</p>
+</section>
+<section style="display:flex;flex-direction:column;gap:14px"><div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap"><h2 class="h3">Lots assortis</h2><button class="btn btn-line btn-sm" type="button" id="ajout-lot">Ajouter un lot</button></div><div id="lots" style="display:flex;flex-direction:column;gap:14px"></div></section>
+<section style="display:flex;flex-direction:column;gap:14px"><div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap"><h2 class="h3">Présentoirs et PLV</h2><button class="btn btn-line btn-sm" type="button" id="ajout-plv">Ajouter</button></div>
+<p class="mute" style="margin:0;font-size:14px">Un article sans prix n’est pas encore proposé aux clients.</p><div id="plvs" style="display:flex;flex-direction:column;gap:14px"></div></section>
+<div><button class="btn btn-o" type="submit">Enregistrer le catalogue</button></div>
+</form>
+</main>
+<footer class="foot"><span>BH Insight est une marque de RVF</span><span>Espace BH Insight</span></footer>
+</div>
+<script src="../doc.js?v=89901efcd9"></script>
+<script src="admin.js?v=ae41c79fbb"></script>
+</body>
+</html>

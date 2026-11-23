@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Panier · BH Insight Pro</title>
+<link rel="icon" href="favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&amp;family=Instrument+Serif:ital@0;1&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="pro.css?v=1b95e66169">
+</head>
+<body class="verif" data-page="panier">
+<div class="pro">
+<header class="top" id="tete"></header>
+<main class="pg">
+<div id="etape-panier">
+<div class="head-row"><div><p class="eyebrow mono">( Panier )</p><h1 class="h1">Prêt à <em>partir.</em></h1></div><a class="lien" href="catalogue.html">← Continuer mes achats</a></div>
+<form id="f-commande" class="side">
+<div class="side-main" style="display:flex;flex-direction:column;gap:20px">
+<div class="tbl-box" id="tableau"><table class="tbl tbl-cartes"><thead><tr><th scope="col">Article</th><th scope="col" class="num">Prix unitaire HT</th><th scope="col">Quantité</th><th scope="col" class="num">Total HT</th><th scope="col"><span class="sr">Retirer</span></th></tr></thead><tbody id="lignes"></tbody></table></div>
+<p class="card pad mute" id="vide" hidden style="margin:0">Votre panier est vide. <a class="lien" href="catalogue.html">Ouvrir le catalogue</a></p>
+<section class="card pad" style="display:flex;flex-direction:column;gap:16px"><h2 class="h3">Livraison</h2>
+<div class="grid2"><label class="choix"><input type="radio" name="livraison" value="compte" checked><span><b id="adr-nom">Mon adresse</b><span class="sous" id="adr-ligne"></span></span></label>
+<label class="choix"><input type="radio" name="livraison" value="autre"><span><b>Une autre adresse</b><span class="sous">Pour cette commande seulement</span></span></label></div>
+<div id="autre-adresse" class="grid2" hidden><div class="field"><label for="c-l_societe">Nom du magasin livré</label><input id="c-l_societe" class="input" name="l_societe" type="text"></div><div class="field"><label for="c-l_nom">À l’attention de</label><input id="c-l_nom" class="input" name="l_nom" type="text"></div><div class="field" style="grid-column: 1 / -1"><label for="c-l_adresse">Adresse</label><input id="c-l_adresse" class="input" name="l_adresse" type="text"></div><div class="field"><label for="c-l_cp">Code postal</label><input id="c-l_cp" class="input" name="l_cp" type="text"></div><div class="field"><label for="c-l_ville">Ville</label><input id="c-l_ville" class="input" name="l_ville" type="text"></div></div>
+<div class="grid2"><div class="field"><label for="c-reference">Votre référence (facultatif)</label><input id="c-reference" class="input" name="reference" type="text" maxlength="80" placeholder="Ex. : réassort décembre"></div><div class="field"><label for="c-note">Note pour BH Insight (facultatif)</label><input id="c-note" class="input" name="note" type="text" maxlength="1000"></div></div>
+</section>
+</div>
+<aside class="card pad" style="flex:1 1 300px;max-width:380px;align-self:flex-start;display:flex;flex-direction:column;gap:16px" aria-label="Récapitulatif">
+<h2 class="h3">Récapitulatif</h2>
+<div class="tot"><div class="mute"><span>Flacons</span><span id="flacons"></span></div><div><span>Total HT</span><b id="ht"></b></div><div class="mute"><span id="taux">TVA</span><span id="tva"></span></div><div class="grand"><span>Total TTC</span><span id="ttc"></span></div></div>
+<div id="msg"></div>
+<button class="btn btn-o btn-full" type="submit" id="envoyer">Envoyer la commande</button>
+<p class="mute" style="margin:0;font-size:13px">Facture établie par RVF à l’expédition, disponible dans Mon compte.</p>
+</aside>
+</form>
+</div>
+<section id="etape-envoyee" class="card" hidden style="max-width:760px;margin:40px auto 0;padding:clamp(28px,5vw,56px);text-align:center;display:flex;flex-direction:column;align-items:center;gap:18px">
+<svg width="72" height="72" viewBox="0 0 72 72" aria-hidden="true"><circle cx="36" cy="36" r="33" fill="#FFF1DE" stroke="#FF7A00" stroke-width="3"/><path d="M22 37l10 10 19-21" fill="none" stroke="#0A1E3C" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+<p class="eyebrow mono" style="margin:0">( Commande envoyée )</p>
+<h1 class="h1" style="font-size:48px">Merci, c’est <em>parti !</em></h1>
+<p style="margin:0;font-size:18px">Commande <b id="num-envoye"></b> · <span id="ht-envoye"></span></p>
+<p class="mute" style="margin:0;max-width:520px">BH Insight la prépare et vous prévient par e-mail à l’expédition, avec le n° de suivi du colis.</p>
+<div style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:6px"><a class="btn btn-navy" href="historique.html" id="suivre">Suivre ma commande</a><a class="btn btn-line" href="catalogue.html">Nouvelle commande</a></div>
+</section>
+</main>
+<footer class="foot"><span>BH Insight est une marque de RVF</span><span><a class="lien" href="mailto:contact@bhinsight.fr">contact@bhinsight.fr</a></span></footer>
+</div>
+<script src="doc.js?v=89901efcd9"></script>
+<script src="pro.js?v=981d105e21"></script>
+</body>
+</html>

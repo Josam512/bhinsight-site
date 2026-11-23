@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Commande · BH Insight Pro</title>
+<link rel="icon" href="../favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&amp;family=Instrument+Serif:ital@0;1&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../pro.css?v=1b95e66169">
+</head>
+<body class="verif" data-page="commande">
+<div class="pro">
+<header class="top" id="tete"></header>
+<main class="pg">
+<a class="lien" href="commandes.html">← Toutes les commandes</a>
+<div class="head-row" style="margin-top:18px"><div><p class="eyebrow mono">( Commande )</p><h1 class="h1" id="titre">…</h1><p class="mute" id="sous-titre" style="margin:10px 0 0"></p></div><span class="chip" id="etat"></span></div>
+<div id="msg" style="margin-bottom:18px"></div>
+<div class="side">
+<div class="side-main" style="display:flex;flex-direction:column;gap:20px">
+<div class="tbl-box"><table class="tbl"><thead><tr><th>Article</th><th class="num">Prix unitaire HT</th><th class="num">Qté</th><th class="num">Flacons</th><th class="num">Total HT</th></tr></thead><tbody id="lignes"></tbody></table></div>
+<div class="card pad tot" style="max-width:420px;margin-left:auto"><div class="mute"><span>Flacons</span><span id="t-flacons"></span></div><div><span>Total HT</span><b id="t-ht"></b></div><div class="mute"><span>TVA</span><span id="t-tva"></span></div><div class="grand"><span>Total TTC</span><span id="t-ttc"></span></div></div>
+<div class="card pad" id="note-client" hidden><p class="eyebrow mono">( Note du client )</p><p style="margin:0;white-space:pre-line" id="note-client-txt"></p></div>
+<div id="bloc-reclamations" hidden><p class="eyebrow mono">( Réclamations sur cette commande )</p><div id="reclamations" style="display:flex;flex-direction:column;gap:10px"></div></div>
+</div>
+<aside style="flex:1 1 320px;max-width:420px;display:flex;flex-direction:column;gap:16px">
+<div class="card pad"><p class="eyebrow mono">( Client )</p><p style="margin:0;line-height:1.6" id="client"></p></div>
+<div class="card pad"><p class="eyebrow mono">( Livrer à )</p><p style="margin:0;line-height:1.6" id="livraison"></p></div>
+<form class="card pad" id="f-suivi" style="display:flex;flex-direction:column;gap:14px">
+<p class="eyebrow mono" style="margin:0">( Suivi )</p>
+<div class="field"><label for="c-colis">N° de colis (facultatif)</label><input id="c-colis" class="input" name="colis" type="text" maxlength="60"></div>
+<div id="bloc-date"><div class="field"><label for="c-date">Date d’expédition (vide = aujourd’hui)</label><input id="c-date" class="input" name="date" type="date"></div></div>
+<div class="field"><label for="c-note">Note interne (jamais montrée au client)</label><textarea id="c-note" name="note_interne" class="input" style="min-height:90px"></textarea></div>
+<label class="coche"><input type="checkbox" name="prevenir" checked>Prévenir le client par e-mail</label>
+<button class="btn btn-line btn-sm" type="submit">Enregistrer</button>
+<div id="actions" style="display:flex;flex-direction:column;gap:10px"></div>
+<div id="docs" style="display:flex;flex-wrap:wrap;gap:8px"></div>
+</form>
+</aside>
+</div>
+</main>
+<footer class="foot"><span>BH Insight est une marque de RVF</span><span>Espace BH Insight</span></footer>
+</div>
+<script src="../doc.js?v=89901efcd9"></script>
+<script src="admin.js?v=ae41c79fbb"></script>
+</body>
+</html>
