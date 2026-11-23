@@ -71,8 +71,8 @@ textarea.input{min-height:140px;padding:14px 16px;resize:vertical}
 
 /* produits */
 .prod{position:relative;display:flex;flex-direction:column;gap:12px;padding:18px;border:1px solid #E8DDCB;border-radius:24px;background:#FFFFFF;overflow:hidden}
-.prod-vis{position:relative;display:grid;place-items:end center;height:200px;border-radius:18px;background:radial-gradient(70% 60% at 50% 85%,color-mix(in srgb,var(--vc) 34%,#FFFFFF),#FFF8EF 72%)}
-.prod-vis img{height:186px;width:auto;filter:drop-shadow(0 16px 14px rgba(10,30,60,.22))}
+.prod-vis{position:relative;display:grid;place-items:end center;height:200px;border-radius:18px;background:#FFFFFF}
+.prod-vis img{height:186px;width:auto;filter:drop-shadow(0 12px 10px rgba(10,30,60,.14))}
 .prod-vis .duo{display:flex;align-items:flex-end;gap:2px}
 .prod-vis .duo img{height:150px}
 .pastille{display:inline-block;width:12px;height:12px;border-radius:50%;background:var(--vc);box-shadow:0 0 0 2px #FFFFFF,0 0 0 3px rgba(10,30,60,.15)}
@@ -170,7 +170,7 @@ body.verif .pro{visibility:hidden}
 .chargement{padding:28px;text-align:center;color:#56667D}
 .vide{padding:32px 20px;text-align:center;color:#56667D}
 .toast{position:fixed;left:50%;bottom:22px;z-index:300;transform:translateX(-50%);max-width:calc(100% - 32px);padding:14px 20px;border-radius:999px;background:#0A1E3C;color:#FFF8EF;font-weight:700;box-shadow:0 18px 40px -16px rgba(10,30,60,.6)}
-.vign{display:flex;align-items:flex-end;justify-content:center;width:64px;height:76px;flex:none;border-radius:14px;background:radial-gradient(70% 60% at 50% 85%,color-mix(in srgb,var(--vc,#FF7A00) 34%,#FFFFFF),#FFF8EF 72%)}
+.vign{display:flex;align-items:flex-end;justify-content:center;width:64px;height:76px;flex:none;border-radius:14px;border:1px solid #EFE6D7;background:#FFFFFF}
 .vign img{height:70px;width:auto}
 .vign img + img{margin-left:-10px;height:60px;transform:rotate(12deg)}
 .vign-plv{display:grid;place-items:center;width:64px;height:76px;flex:none;border-radius:14px;background:#0A1E3C;color:#FFF8EF;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.1em}
