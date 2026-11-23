@@ -346,8 +346,11 @@ case 'reglages':
     bh_reglage_ecrire('email_bh', $mel);
     $em = bh_emetteur();
     $x = isset($e['emetteur']) && is_array($e['emetteur']) ? $e['emetteur'] : array();
-    foreach (array('raison' => 120, 'adresse' => 200, 'cp' => 12, 'ville' => 80, 'pays' => 60, 'email' => 200) as $k => $max) if (isset($x[$k])) $em[$k] = bh_texte($x[$k], $max);
-    foreach (array('mentions' => 300, 'conditions' => 400, 'penalites' => 400) as $k => $max) if (isset($x[$k])) $em[$k] = bh_texte_long($x[$k], $max);
+    foreach (array('raison' => 120, 'forme' => 40, 'capital' => 40, 'rcs_ville' => 60, 'siren' => 20, 'tva' => 30, 'adresse' => 200, 'cp' => 12, 'ville' => 80, 'pays' => 60, 'email' => 200, 'escompte' => 200) as $k => $max)
+        if (isset($x[$k])) $em[$k] = bh_texte($x[$k], $max);
+    foreach (array('conditions' => 400, 'penalites' => 600) as $k => $max) if (isset($x[$k])) $em[$k] = bh_texte_long($x[$k], $max);
+    if (isset($x['delai'])) { $dl = (int) $x['delai']; if ($dl < 0 || $dl > 60) bh_erreur('Délai de paiement : de 0 à 60 jours (plafond légal).'); $em['delai'] = $dl; }
+    unset($em['mentions']);
     if ($em['raison'] === '' || $em['adresse'] === '') bh_erreur('Raison sociale et adresse obligatoires (elles figurent sur les factures).');
     bh_reglage_ecrire('emetteur', json_encode($em, JSON_UNESCAPED_UNICODE));
     bh_json(array('ok' => true, 'email_bh' => bh_email_bh(), 'emetteur' => bh_emetteur()));

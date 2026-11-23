@@ -22,12 +22,15 @@
 <div class="field"><label for="c-email_bh">E-mail qui reçoit les commandes, inscriptions et messages</label><input id="c-email_bh" class="input" name="email_bh" type="email" required></div>
 <div class="sep" style="margin:0"></div>
 <h2 class="h3">Factures et bons de livraison (vendeur)</h2>
+<p class="mute" style="margin:0;font-size:14px">Ces informations figurent sur les factures émises à partir de maintenant ; celles déjà émises ne changent pas. Adresse = siège social inscrit au registre.</p>
 <div class="grid2">
-<div class="field"><label for="c-e_raison">Raison sociale</label><input id="c-e_raison" class="input" name="e_raison" type="text" required></div><div class="field"><label for="c-e_email">E-mail affiché</label><input id="c-e_email" class="input" name="e_email" type="email"></div><div class="field" style="grid-column: 1 / -1"><label for="c-e_adresse">Adresse</label><input id="c-e_adresse" class="input" name="e_adresse" type="text" required></div><div class="field"><label for="c-e_cp">Code postal</label><input id="c-e_cp" class="input" name="e_cp" type="text"></div><div class="field"><label for="c-e_ville">Ville</label><input id="c-e_ville" class="input" name="e_ville" type="text"></div><div class="field"><label for="c-e_pays">Pays</label><input id="c-e_pays" class="input" name="e_pays" type="text"></div>
+<div class="field"><label for="c-e_raison">Raison sociale</label><input id="c-e_raison" class="input" name="e_raison" type="text" required></div><div class="field"><label for="c-e_forme">Forme juridique</label><input id="c-e_forme" class="input" name="e_forme" type="text"></div><div class="field"><label for="c-e_capital">Capital social</label><input id="c-e_capital" class="input" name="e_capital" type="text"></div><div class="field"><label for="c-e_rcs_ville">Ville du RCS (greffe)</label><input id="c-e_rcs_ville" class="input" name="e_rcs_ville" type="text"></div><div class="field"><label for="c-e_siren">N° SIREN</label><input id="c-e_siren" class="input" name="e_siren" type="text"></div><div class="field"><label for="c-e_tva">N° TVA intracommunautaire</label><input id="c-e_tva" class="input" name="e_tva" type="text"></div><div class="field" style="grid-column: 1 / -1"><label for="c-e_adresse">Adresse du siège social</label><input id="c-e_adresse" class="input" name="e_adresse" type="text" required></div><div class="field"><label for="c-e_cp">Code postal</label><input id="c-e_cp" class="input" name="e_cp" type="text"></div><div class="field"><label for="c-e_ville">Ville</label><input id="c-e_ville" class="input" name="e_ville" type="text"></div><div class="field"><label for="c-e_pays">Pays</label><input id="c-e_pays" class="input" name="e_pays" type="text"></div><div class="field"><label for="c-e_email">E-mail affiché</label><input id="c-e_email" class="input" name="e_email" type="email"></div>
 </div>
-<div class="field"><label for="c-mentions">Mentions de la société (bas des documents)</label><textarea id="c-mentions" name="e_mentions" class="input" style="min-height:70px"></textarea></div>
-<div class="field"><label for="c-conditions">Conditions de paiement</label><textarea id="c-conditions" name="e_conditions" class="input" style="min-height:70px"></textarea></div>
-<div class="field"><label for="c-penalites">Pénalités de retard</label><textarea id="c-penalites" name="e_penalites" class="input" style="min-height:70px"></textarea></div>
+<div class="grid2">
+<div class="field"><label for="c-e_delai">Délai de paiement (jours après la livraison, 60 au plus)</label><input id="c-e_delai" class="input" name="e_delai" type="number" min="0" max="60"></div><div class="field"><label for="c-e_escompte">Escompte pour paiement anticipé</label><input id="c-e_escompte" class="input" name="e_escompte" type="text"></div>
+</div>
+<div class="field"><label for="c-penalites">Pénalités de retard</label><textarea id="c-penalites" name="e_penalites" class="input" style="min-height:80px"></textarea></div>
+<div class="field"><label for="c-conditions">Autres conditions (facultatif)</label><textarea id="c-conditions" name="e_conditions" class="input" style="min-height:60px"></textarea></div>
 <div><button class="btn btn-o" type="submit">Enregistrer</button></div>
 </form>
 <form id="f-mdp" class="card pad" style="display:flex;flex-direction:column;gap:16px;max-width:620px;margin-top:24px">
@@ -39,7 +42,7 @@
 </main>
 <footer class="foot"><span>BH Insight est une marque de RVF</span><span>Espace BH Insight</span></footer>
 </div>
-<script src="../doc.js?v=89901efcd9"></script>
+<script src="../doc.js?v=9016ddb9ad"></script>
 <script src="admin.js?v=ae41c79fbb"></script>
 </body>
 </html>

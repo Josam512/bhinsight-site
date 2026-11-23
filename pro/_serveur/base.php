@@ -302,17 +302,23 @@ function bh_eur($c) { return number_format($c / 100, 2, ',', ' ') . ' €'; }
 /* ------------------------------------------------------------------ émetteur des factures (RVF) */
 function bh_emetteur()
 {
+    /* Vendeur : RVF, d'après le registre (RCS Rennes 907 839 898, SAS au capital de 1 000 €, siège à Cesson-Sévigné ; vérifié le 23/11/2026).
+       Tout est modifiable dans Réglages ; les mentions du bas sont recomposées à partir de ces champs. */
     $d = array(
-        'raison' => 'RVF',
-        'marque' => 'BH Insight',
-        'adresse' => '6 rue de la Pyramide', 'cp' => '92100', 'ville' => 'Boulogne-Billancourt', 'pays' => 'France',
-        'mentions' => 'RVF · SAS · SIREN 907 839 898 · TVA FR 72 907 839 898',
-        'conditions' => 'Paiement à 30 jours à compter de la livraison. Pas d’escompte pour paiement anticipé.',
-        'penalites' => 'En cas de retard de paiement : pénalités au taux d’intérêt de la BCE majoré de 10 points, et indemnité forfaitaire pour frais de recouvrement de 40 €.',
+        'raison' => 'RVF', 'forme' => 'SAS', 'capital' => '1 000 €', 'rcs_ville' => 'Rennes', 'siren' => '907 839 898', 'tva' => 'FR 72 907 839 898',
+        'adresse' => '6 rue du Bas-Village', 'cp' => '35510', 'ville' => 'Cesson-Sévigné', 'pays' => 'France',
         'email' => BH_EMAIL_BH_DEFAUT,
+        'delai' => 30,
+        'escompte' => 'néant',
+        'penalites' => 'En cas de retard de paiement, pénalités exigibles sans rappel au taux d’intérêt de la BCE majoré de 10 points, et indemnité forfaitaire pour frais de recouvrement de 40 € (article L441-10 du Code de commerce).',
+        'conditions' => '',
     );
     $r = json_decode((string) bh_reglage('emetteur', ''), true);
-    return is_array($r) ? array_merge($d, $r) : $d;
+    $e = is_array($r) ? array_merge($d, $r) : $d;
+    $e['delai'] = max(0, min(60, (int) $e['delai']));
+    $e['mentions'] = implode(' · ', array_filter(array($e['raison'], trim($e['forme'] . ($e['capital'] !== '' ? ' au capital de ' . $e['capital'] : '')),
+        $e['siren'] !== '' ? 'RCS ' . trim($e['rcs_ville'] . ' ' . $e['siren']) : '', $e['tva'] !== '' ? 'TVA ' . $e['tva'] : '')));
+    return $e;
 }
 function bh_email_bh() { $e = bh_reglage('email_bh', ''); return bh_email_valide($e) ? $e : BH_EMAIL_BH_DEFAUT; }
 
@@ -320,11 +326,16 @@ function bh_email_bh() { $e = bh_reglage('email_bh', ''); return bh_email_valide
 $GLOBALS['BH_ETATS'] = array('recue' => 'Reçue', 'preparation' => 'En préparation', 'expediee' => 'Expédiée', 'annulee' => 'Annulée');
 function bh_etat_texte($e) { return isset($GLOBALS['BH_ETATS'][$e]) ? $GLOBALS['BH_ETATS'][$e] : $e; }
 function bh_date_fr($d) { return $d ? date('d.m.Y', strtotime($d)) : ''; }
+function bh_siren($siret)
+{
+    $n = preg_replace('/\D/', '', (string) $siret);
+    return strlen($n) >= 9 ? substr($n, 0, 3) . ' ' . substr($n, 3, 3) . ' ' . substr($n, 6, 3) : '';
+}
 function bh_client_bloc($c)
 {
     return array('numero' => (string) $c['numero'], 'societe' => (string) $c['societe'], 'enseigne' => (string) $c['enseigne'],
         'nom' => trim($c['prenom'] . ' ' . $c['nom']), 'adresse' => (string) $c['adresse'], 'cp' => (string) $c['cp'], 'ville' => (string) $c['ville'],
-        'pays' => (string) $c['pays'], 'tva' => (string) $c['tva'], 'siret' => (string) $c['siret'], 'email' => (string) $c['email'], 'tel' => (string) $c['tel']);
+        'pays' => (string) $c['pays'], 'tva' => (string) $c['tva'], 'siret' => (string) $c['siret'], 'siren' => bh_siren($c['siret']), 'email' => (string) $c['email'], 'tel' => (string) $c['tel']);
 }
 /* Contenu du bon de livraison, figé à l'expédition (une adresse modifiée ensuite ne change pas un bon déjà émis) */
 function bh_bl_contenu($cmd, $client)
@@ -341,9 +352,11 @@ function bh_facturer($cmd, $client)
     if ($deja) return $deja;
     $num = bh_numero_facture();
     $quand = $cmd['expediee'] ?: bh_maintenant();
-    $d = array('type' => 'facture', 'numero' => $num, 'emise' => bh_date_fr($quand), 'commande' => $cmd['numero'], 'date_commande' => bh_date_fr($cmd['creee']),
+    $em = bh_emetteur();
+    $d = array('type' => 'facture', 'numero' => $num, 'emise' => bh_date_fr($quand),
+        'echeance' => date('d.m.Y', strtotime($quand) + 86400 * (int) $em['delai']), 'delai' => (int) $em['delai'], 'operation' => 'Livraison de biens', 'commande' => $cmd['numero'], 'date_commande' => bh_date_fr($cmd['creee']),
         'reference' => (string) $cmd['reference'], 'expediee' => bh_date_fr($cmd['expediee']),
-        'emetteur' => bh_emetteur(), 'client' => bh_client_bloc($client), 'livraison' => json_decode($cmd['livraison'], true),
+        'emetteur' => $em, 'client' => bh_client_bloc($client), 'livraison' => json_decode($cmd['livraison'], true),
         'lignes' => json_decode($cmd['lignes'], true), 'ht' => (int) $cmd['ht'], 'tva' => (int) $cmd['tva'], 'ttc' => (int) $cmd['ttc'], 'taux' => BH_TVA,
         'flacons' => (int) $cmd['flacons']);
     bh_exec('INSERT INTO factures (numero, commande, client_id, emise, ttc, donnees) VALUES (?, ?, ?, ?, ?, ?)',
